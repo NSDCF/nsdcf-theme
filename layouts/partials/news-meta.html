@@ -1,0 +1,28 @@
+<div class="meta">
+  {{- if isset .Params "news/categories" -}}
+    <ul class="meta-categories">
+      {{- range (index .Params "news/categories") -}}
+        <li class="meta-categories__item"><a href="{{ printf "/%s/%s/" "news/categories/" (. | urlize) | absURL }}" class="meta-categories__link">{{title .}}</a></li>
+      {{- end -}}
+    </ul>
+  {{- end -}}
+
+  {{- if isset .Params "news/series" -}}
+    <span class="meta-categories__heading">Series</span>
+    <ul class="meta-categories">
+      {{- range (index .Params "news/series") -}}
+        <li class="meta-categories__item"><a href="{{ printf "/%s/%s/" "news/series/" (. | urlize) | absURL }}" class="meta-categories__link">{{title .}}</a></li>
+      {{- end -}}
+    </ul>
+  {{- end -}}
+
+
+  {{- if .Params.author -}}
+    <address class="meta__author">
+      <!-- <a class="meta__author-link" rel="author" href="#">{{ title .Params.author }}</a> -->
+      <span class="meta__author-link" rel="author">{{ title .Params.author }}</span>
+    </address>
+  {{- end -}}
+
+  <time class="meta__time" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 January 2006" }}</time>
+</div>

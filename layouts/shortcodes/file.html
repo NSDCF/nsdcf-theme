@@ -1,0 +1,7 @@
+{{ $file    := $.Page.Resources.GetMatch (.Get 0 )}}
+{{ $preface := .Get 1 }}
+
+<a  href="{{ $file.RelPermalink }}"
+    alt="{{ with $preface }}{{$preface}} {{end}}{{ $file.Title }}" class="resource_link{{ with $file.Params.icon}} resource_link--{{.}}{{end}}"
+    target="_blank">{{ with $preface }}{{$preface}} {{end}}{{ $file.Title }}
+</a>

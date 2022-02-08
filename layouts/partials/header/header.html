@@ -1,0 +1,25 @@
+<header class="header" data-turbo-permanent>
+  <div class="header__inner">
+    <button class="hamburger" type="button" role="button" aria-label="Menu" aria-controls="nav-overlay" aria-expanded="false" tabindex="0">
+      <div class="hamburger__box">
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+      </div>
+    </button>
+    <a class="header-logo__link" href="{{ .Site.BaseURL }}" aria-label="{{ .Site.Params.shortTitle }}">
+      <img src="/images/logo_{{.Site.Params.shortTitle | lower }}.svg" class="header-logo__img" />
+    </a>
+  </div>
+
+  <nav class="nav-overlay grid" id="nav" aria-hidden="true" aria-labelledby="hamburger">
+    <ul class="nav">
+      {{ $currentPage := . }}
+      {{ range .Site.Menus.main }}
+        <li class="nav__item">
+          <a class="nav__link {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}nav__link--active{{end}}" href="{{.URL}}">{{ .Name }}</a>
+        </li>
+      {{ end }}
+    </ul>
+  </nav>
+</header>

@@ -1,0 +1,128 @@
+.header
+  position: fixed
+  left: 0
+  top: 0
+  width: 100%
+  z-index: var(--layer-header)
+
+.header__inner
+  background: var(--secondary)
+  padding: var(--space-xs)
+  display: flex
+  align-items: center
+  justify-content: space-between
+  transition: background var(--hamburger-trans-time)
+  z-index: var(--layer-header-inner)
+
+  +respond("tablet-landscape")
+    background: none
+    align-items: center
+    justify-content: space-between
+    //flex-direction: row-reverse
+    padding: 0 var(--space-s)
+    position: fixed
+    top: 0
+    left: 0
+    height: var(--space-xl)
+    width: calc(100vh - (var(--space-xs) * 2))
+    transform: rotate(-90deg) translateX(-100%)
+    transform-origin: left top
+
+    .home &
+      +supports("animation")
+        left: 0
+        animation: fadeIn 4s
+
+  //   +respond("tablet-landscape")
+  //     justify-content: flex-start
+  //     padding: 0.5em $gutter
+  //
+  //
+  //     .body--home &
+  //       @supports(animation-name: foo)
+  //         left: -0.5 * scale(h1)
+  //         animation: slideToLeft 3s ease forwards, fadeIn 4s
+
+.hamburger
+  --hamburger-trans-time: .3s
+  --hamburger-delay-time: .1s
+
+  background: none
+  border: none
+  color: inherit
+  cursor: pointer
+  display: block
+  height: var(--step-2)
+  width: var(--space-m)
+  padding: 0
+  position: relative
+  z-index: z-index("header__inner")
+
+  +respond("tablet-landscape")
+    order: 3
+    transform: rotate(90deg)
+
+.hamburger__box
+  display: block
+  position: relative
+  top: calc(var(--space-3xs) + .15rem)
+  height: 100%
+
+.hamburger__line
+  height: 3px
+  width: 100%
+  display: block
+  margin: 0 auto
+  line-height: var(--space-l)
+  position: absolute
+  background-color: var(--primary-dark)
+  border-radius: 4px
+  transition: var(--hamburger-trans-time)
+  &:nth-of-type(1)
+    top: 0
+    transition: top var(--hamburger-trans-time) ease var(--hamburger-trans-time), transform var(--hamburger-trans-time) ease var(--hamburger-delay-time)
+  &:nth-of-type(2)
+    top: .5rem
+    transition: opacity 50ms ease 200ms
+  &:nth-of-type(3)
+    top: 1rem
+    transition: top var(--hamburger-trans-time) ease var(--hamburger-trans-time), transform var(--hamburger-trans-time) ease var(--hamburger-delay-time)
+
+.header-logo
+  &__link
+    z-index: var(--layer-header-inner)
+
+    &:hover
+      filter: brightness(0) saturate(100%) invert(46%) sepia(7%) saturate(1710%) hue-rotate(183deg) brightness(97%) contrast(86%)
+
+  &__img
+    display: inline-block
+    //filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%)
+    height: var(--step-2)
+    line-height: 1em
+    vertical-align: bottom
+
+    +respond("tablet-landscape")
+      margin-left: var(--space-3xs)
+
+.nav-overlay-active
+  .hamburger__line
+    &:nth-of-type(1)
+      background-color: var(--secondary-lightest)
+      top: var(--space-2xs)
+      transform: rotate(45deg)
+      transition: background-color .75s, top var(--hamburger-trans-time) ease var(--hamburger-delay-time), transform var(--hamburger-trans-time) ease-out .5s
+    &:nth-of-type(2)
+      opacity: 0
+    &:nth-of-type(3)
+      background-color: var(--secondary-lightest)
+      top: var(--space-2xs)
+      transform: rotate(-45deg)
+      transition: background-color .75s, top var(--hamburger-trans-time) ease var(--hamburger-delay-time), transform var(--hamburger-trans-time) ease-out .5s
+
+  .header-logo__link
+    filter: brightness(0) saturate(100%) invert(100%) sepia(3%) saturate(217%) hue-rotate(53deg) brightness(118%) contrast(100%)
+    transition: filter .75s
+    &:hover
+      // filter equivalent to color("accent","base")
+      filter: brightness(0) saturate(100%) invert(100%) sepia(28%) saturate(5026%) hue-rotate(319deg) brightness(108%) contrast(94%)

@@ -1,0 +1,19 @@
+{{ define "main" }}
+  {{ $paginator := .Paginate (where .Data.Pages "Section" .Section) }}
+
+  <header class="mast mast--section-has-image grid">
+    <h1 class="mast__title">{{ .Title }}</h1>
+    {{ if and $paginator.HasNext (not $paginator.HasPrev) }}
+      {{ .Content }}
+    {{ end }}
+  </header>
+
+  <section class="news-list grid">
+    <div class="news-listings">
+      {{ range $i, $e := $paginator.Pages }}
+        {{ partial "news-listing-item" (dict "context" . "fullsummary" false) }}
+      {{ end }}
+      {{ partial "pagination" . }}
+    </section>
+  </div>
+{{ end }}

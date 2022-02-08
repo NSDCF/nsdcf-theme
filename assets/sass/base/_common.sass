@@ -1,0 +1,49 @@
+// z-index layers
+\:root
+  --layer--2: -20
+  --layer--1: -10
+  --layer-0: 1
+  --layer-1: 10
+  --layer-2: 20
+  --layer-3: 30
+  --layer-4: 40
+  --layer-5: 50
+  --layer-header: 110
+  --layer-nav: 110
+  --layer-header-inner: 120
+  // width of navbar on desktop width
+  --nav-width: 4em;
+
+body
+  background: var(--secondary)
+  color: var(--primary)
+  font: var(--step-0)/1.5 $font-serif
+  margin: 0
+
+  &.nav-overlay-active
+    overflow-y: hidden
+
+a
+  color: var(--tertiary)
+  font-style: italic
+  &:hover
+    color: var(--primary)
+  // &:visited:hover
+  //   color: var(--tertiary)
+
+h1, h2, h3
+  line-height: 1
+
+figure
+  padding: 0
+  margin: 0
+
+img
+  display: block
+
+.content > .intro_p
+  font-size: var(--step-1)
+
+  &--with-thumb
+    align-self: end
+    grid-column: half-gutter-start / col 3

@@ -1,0 +1,72 @@
+.mast
+  +respond("tablet-landscape")
+    &--section-has-image
+      background: var(--secondary-lightest)
+      margin-bottom: var(--space-3xl)
+
+.mast__title
+  margin: var(--space-4xl) 0 var(--space-2xs)
+  font-size: var(--step-3)
+  grid-column: half-gutter-start / main-end
+
+  +respond("desktop")
+    grid-column: main-start / main-end
+
+  &--with-thumb
+    +respond("desktop")
+      align-self: end
+      grid-column: half-gutter-start / col 3
+      margin: var(--space-4xl) 0 var(--space-m)
+
+  &--with-section-thumb
+    +respond("desktop")
+      grid-column: full-gutter-start / col 2
+      font-size: var(--step-5)
+      padding-right: var(--space-m)
+      text-align: right
+
+  &--bottom
+    margin-top: var(--step-1)
+
+.mast__thumb
+  margin: 0 0 var(--space-xs)
+  grid-column: full-start / full-end
+  grid-row: 3
+  padding: 0
+
+  +respond("tablet-landscape")
+    grid-column: full-gutter-start / full-end
+
+  +respond("desktop")
+    align-self: stretch
+    grid-column: col 3 / full-end
+    grid-row: 1 / -1
+    margin-bottom: var(--space-m)
+    padding-left: var(--space-2xs)
+
+    &--section
+      grid-column: col 2 / full-end
+      margin-bottom: var(--space-xl)
+
+.mast__thumb_img, .mast__img
+  width: 100%
+  object-fit: cover
+  object-position: center 20%
+
+  +respond("desktop")
+    object-position: 50% 50%
+    height: 100%
+    width: 100%
+
+.mast__fig
+  margin: 0 0 var(--space-xs)
+  grid-column: full-start / full-end
+  padding: 0
+
+  +respond("tablet-landscape")
+    margin-bottom: calc(-1 * var(--space-xl))
+    margin-top: var(--space-xs)
+    grid-column: full-gutter-start / full-end
+
+  +respond("desktop")
+    grid-column: half-gutter-start / full-end

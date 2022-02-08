@@ -1,0 +1,66 @@
+<!doctype html>
+<html class="html--no-js" lang="{{ .Site.LanguageCode }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ block "title" . }}
+      {{ if .Params.linkTitle}}{{ .Params.linkTitle }} &middot; {{ else if .Title }}{{ .Title }} &middot; {{ end }}{{ .Site.Params.shortTitle }}{{ end }}</title>
+    {{ hugo.Generator }}
+
+    <meta name="description" content="{{if .IsHome}}{{ $.Site.Params.description }}{{else}}{{.Description}}{{end}}" />
+    {{ partial "head/open-graph.html" . }}
+    {{ partial "head/twitter-cards.html" . }}
+    {{ partial "head/schema-data.html" . }}
+
+    {{ if .Params.imageAlt -}}
+      <meta name="twitter:image:alt" content="{{ .Params.imageAlt }}">
+    {{ else -}}
+      <meta name="twitter:image:alt" content="{{ $.Site.Params.imageAlt }}">
+    {{- end }}
+
+    {{ range .AlternativeOutputFormats -}}
+      {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Params.title | safeHTML }}
+    {{ end -}}
+    <link rel="canonical" href="{{ .Permalink }}">
+
+    {{ if (isset .Params "prev") -}}
+      <link rel="prev" href="{{ .Params.prev }}">
+    {{ end }}
+    {{ if (isset .Params "next") -}}
+      <link rel="next" href="{{ .Params.next }}">
+    {{ end }}
+
+    {{- partial "head/site-preload" . -}}
+    {{- partial "head/site-manifest" . -}}
+
+    {{ $sass := resources.Get "sass/main.sass" | toCSS }}
+    {{- if .Site.IsServer -}}
+      <link rel="stylesheet" href="{{ $sass.Permalink }}">
+    {{- else -}}
+      {{ $stylesheet := $sass | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ $stylesheet.Permalink }}" integrity="{{ $stylesheet.Data.Integrity }}">
+    {{- end }}
+    {{ block "style" . }}{{ end }}
+
+    {{- partial "head/site-scripts" . -}}
+    {{- partial "head/site-inline-js.html" -}}
+  </head>
+
+  <body class="{{ with .Type }}{{ . }} {{ end -}}
+               {{ with .Kind }}{{ . }} {{ end -}}
+               {{ with .Layout }}{{ . }}{{ end -}}">
+
+    {{ block "nav" . }}
+      {{ partial "header/header" . }}
+    {{ end }}
+
+    <main class="main">
+      {{ block "intro" . }}{{ end }}
+      {{ block "main" . }}{{ end }}
+    </main>
+
+    {{ partial "footer/site-footer" . }}
+    {{ template "_internal/google_analytics_async.html" . }}
+  </body>
+</html>

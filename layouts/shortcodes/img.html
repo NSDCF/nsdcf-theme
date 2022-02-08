@@ -1,0 +1,3 @@
+<div class="{{ .Get "class" }}">
+{{- partial "responsive-image" (dict "img" (.Get "src") "class" (.Get "class") "alt" (.Get "alt") "caption" (.Get "caption") "cite" (.Get "cite") "dot" $.Page) -}}
+</div>

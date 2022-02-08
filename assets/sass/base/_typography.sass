@@ -1,0 +1,31 @@
+// Fluid Typography
+// Min viewport - 320px, 16px font size, 1.2 type scale (augmented fourth)
+// Max viewport - 1600px, 24px font size, 1.414 type scale (augmented fourth)
+// Generated with Utopia Fluid Type Scale Calculator
+// @link https://utopia.fyi/type/calculator?c=320,16,1.2,1600,24,1.414,7,3,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l
+
+\:root
+  --step--3: clamp(0.58rem, 0.59rem + -0.06vw, 0.53rem)
+  --step--2: clamp(0.69rem, 0.68rem + 0.07vw, 0.75rem)
+  --step--1: clamp(0.83rem, 0.78rem + 0.28vw, 1.06rem)
+  --step-0: clamp(1.00rem, 0.88rem + 0.63vw, 1.50rem)
+  --step-1: clamp(1.20rem, 0.97rem + 1.15vw, 2.12rem)
+  --step-2: clamp(1.44rem, 1.05rem + 1.95vw, 3.00rem)
+  --step-3: clamp(1.73rem, 1.10rem + 3.14vw, 4.24rem)
+  --step-4: clamp(2.07rem, 1.09rem + 4.90vw, 6.00rem)
+  --step-5: clamp(2.49rem, 0.99rem + 7.49vw, 8.48rem)
+  --step-6: clamp(2.99rem, 0.74rem + 11.25vw, 11.99rem)
+  --step-7: clamp(3.58rem, 0.24rem + 16.71vw, 16.95rem)
+
+// @font-face
+
++font-face("Montserrat", "/fonts/Montserrat-Regular", 400, normal)
++font-face("Montserrat", "/fonts/Montserrat-Italic", 400, italic)
++font-face("Montserrat", "/fonts/Montserrat-SemiBold", 600, normal)
++font-face("Vollkorn", "/fonts/Vollkorn-Regular", 400)
++font-face("Vollkorn", "/fonts/Vollkorn-Italic", 400, italic)
++font-face("Vollkorn", "/fonts/Vollkorn-SemiBold", 600, normal)
+
+$font-serif: "Vollkorn", serif
+$font-sans-serif: "Montserrat", "Helvetica Neue", "Helvetica", "Arial", sans-serif
+$render-mode: optimizeLegibility !default

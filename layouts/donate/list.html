@@ -1,0 +1,135 @@
+{{ define "main" }}
+  {{- $images := .Resources.ByType "image" -}}
+  {{- $featured := $images.GetMatch "*feature*" -}}
+  {{- $featured := cond (ne $featured nil) $featured ($images.GetMatch "{*cover*,*thumbnail*}") -}}
+  {{- $featured := $featured.Fill "1600x720" -}}
+
+  <article class="content-grid">
+    <header class="mast mast--section{{ with $featured}} mast--section-has-image{{end}} grid">
+      <h1 class="mast__title">{{ .Title }}</h1>
+      {{ with $featured -}}
+        <figure class="mast__fig">
+          <img src="{{ $featured.Permalink }}" class="mast__img"/>
+        </figure>
+      {{- end -}}
+    </header>
+    <div class="content grid">
+      {{ with .Params.subheading }}<h2 class="donate-subheading">{{. }}</h2>{{ end }}
+      <div class="donate-intro">{{ .Content }}</div>
+    </div>
+
+    <div class="donate-highlights sub-grid grid">
+      {{ range .Params.highlights }}
+        <div class="donate-highlight-item">
+          <span class="donate-highlight-item__number donate-highlight-item__number--{{.type}}">{{.number}}</span>
+          <span class="donate-highlight-item__caption">{{.caption}}</span>
+        </div>
+      {{end}}
+    </div>
+
+    {{ range first 1 .Params.quotes }}
+      <blockquote class="grid blockquote blockquote--big blockquote--centered">
+        <p class="blockquote__p">{{.text}}</p>
+        <cite class="blockquote__cite">
+          <span class="blockquote__cite-name">{{.name}}</span>
+          <span class="blockquote__cite-title">{{.description}}</cite>
+      </blockquote>
+    {{ end }}
+
+    <div class="grid donate-form">
+      <h3 class="donate-subheading donate-form__heading">{{.Params.DonateFormHeading}}</h3>
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="donation_form__form">
+        <input type="hidden" name="cmd" value="_donations">
+        <input type="hidden" name="currency_code" value="USD">
+        <input type="hidden" name="business" value="hello@nsdcf.org">
+        <input type="hidden" name="hosted_button_id" value="M5W8BYCM5P2ZS" />
+
+        <div class="donation_form__fieldgroup">
+          <h5 class="donation_form__sub_heading">{{ .Params.stepOneHeading }}</h5>
+          <div class="donation_boxes">
+            <div class="donation_box">
+              <input class="donation_box__check" type="radio" name="amount" value="10.00" id="donation_box--10" >
+              <label class="donation_box__label" for="donation_box--10">
+                <span class="donation_box__currency">$</span>
+                <span class="donation_box__amt donation_box__amt--10">10</span>
+              </label>
+            </div>
+            <div class="donation_box">
+              <input class="donation_box__check" type="radio" name="amount" value="25.00" id="donation_box--25" >
+              <label class="donation_box__label" for="donation_box--25">
+                <span class="donation_box__currency">$</span>
+                <span class="donation_box__amt donation_box__amt--25">25</span>
+              </label>
+            </div>
+            <div class="donation_box">
+              <input class="donation_box__check" type="radio" name="amount" value="50.00" id="donation_box--50" >
+              <label class="donation_box__label" for="donation_box--50">
+                <span class="donation_box__currency">$</span>
+                <span class="donation_box__amt donation_box__amt--50">50</span>
+              </label>
+            </div>
+            <div class="donation_box">
+              <input class="donation_box__check" type="radio" name="amount" value="75.00" id="donation_box--75" >
+              <label class="donation_box__label" for="donation_box--75">
+                <span class="donation_box__currency">$</span>
+                <span class="donation_box__amt donation_box__amt--75">75</span>
+              </label>
+            </div>
+            <div class="donation_box">
+              <input class="donation_box__check" type="radio" name="amount" value="100.00" id="donation_box--100" >
+              <label class="donation_box__label" for="donation_box--100">
+                <span class="donation_box__currency">$</span>
+                <span class="donation_box__amt donation_box__amt--100">100</span>
+              </label>
+            </div>
+            <div class="donation_box">
+              <input class="donation_box__check" type="radio" name="amount" value="" id="donation_box--other" >
+              <label class="donation_box__label" for="donation_box--other">
+                <span class="donation_box__amt donation_box__amt--other">Other</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="donation_form__fieldgroup donation_form__fieldgroup--directed">
+          <h5 class="donation_form__sub_heading">{{ .Params.stepTwoHeading }}</h5>
+          <select class="form__select form__select--donate" id="directed_donation" name="item_name">
+            {{ range .Params.donationOptions }}
+              <option value="{{.}}">{{.}}</option>
+            {{ end }}
+          </select>
+
+          <div class="directed_donation_other">
+            <label class="donation_label donation_label--directed" for="item_number"><p class="donation_label__p">If other, please specify the name of the program or scholarship fund you would like to direct your donation towards:</p></label>
+            <input name="item_number" placeholder="Name of program or fund" class="form__input donation__directed-input" id="directed_donation_other__textarea"></input>
+          </div>
+        </div>
+
+        <div class="donation_form__fieldgroup--btn">
+          <button class="form__button form__button--donation button--svg button--paypal" type="submit">
+            <span class="button__label--svg">Pay with</span>
+            {{ partial "svg/paypal.svg" (dict "class" "button__icon button__icon--paypal") }}
+          </button>
+
+          <p class="donation_form__small_msg">{{ .Params.payByCheck | markdownify }}</p>
+        </div>
+      </form>
+    </div>
+  </article>
+
+  <section class="grid donate-other-options">
+    {{ if .Params.otherOptionsText }}
+      <h2 class="donate-subheading">{{.Params.OtherOptionsHeading}}</h2>
+      <div class="donate-intro">{{.Params.otherOptionsText | safeHTML }}</div>
+
+      {{ range where .Pages.ByWeight "Params.exclude" "ne" "true" }}
+        <div class="donations-nav-link">
+          <h3 class="donations-nav-link__title"><a href="{{ .Permalink }}" class="card__link">{{.Title}}</a></h3>
+          {{ with .Params.summary }}
+            <p class="donations-nav-link__summary">{{.}}</p>
+          {{ end }}
+        </div>
+      {{ end }}
+    {{ end }}
+  </section>
+{{ end }}

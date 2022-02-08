@@ -1,0 +1,37 @@
+.grid
+  margin: 0 auto
+  padding: 0 var(--space-s)
+
+  +supports("grid")
+    // Initially, 6 equal cols 1fr in size. Content is centered in viewport.
+    // full-gutter-start and half-gutter-start are folded into the 6 main cols to start.
+    // [nav] [col * 6] [right gutter]
+    display: grid
+    grid-template-columns: [full-start] var(--space-m-l) [full-gutter-start half-gutter-start main-start] repeat(6, [col] 1fr) [main-end] var(--space-m-l) [full-end]
+    justify-content: start
+    margin: 0
+    max-width: none
+    padding: 0
+    width: 100%
+
+    +respond("tablet-portrait")
+      grid-template-columns: [full-start] var(--space-m-l) [full-gutter-start] .702fr [half-gutter-start] .702fr [main-start] repeat(6, [col] 1fr) [main-end] var(--space-m-l) [full-end]
+      padding: 0 calc(var(--space-xl) + var(--space-m))
+      padding: 0
+
+    +respond("tablet-landscape")
+      grid-template-columns: [full-start] var(--space-xl) [full-gutter-start] .702fr [half-gutter-start] .702fr [main-start] repeat(6, [col] 1fr) [main-end] var(--space-xl) [full-end]
+
+    > *
+      // Default for all grid items
+      // All items should have consistent padding
+      grid-column: main-start / main-end
+      padding: 0 var(--space-2xs)
+
+.sub-grid
+  grid-column: full-start / full-end
+  padding-left: 0
+  padding-right: 0
+
+.grid p
+  margin: var(--prose-top-gap) 0 var(--prose-bottom-gap)

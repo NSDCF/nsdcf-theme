@@ -1,0 +1,8 @@
+{{ $label := .Get "label" }}
+{{ $class := .Get "class" }}
+
+
+<button class="form__button button--svg button--paypal {{ with $class }}form__button--{{.}}{{end}}" type="submit">
+  <span class="button__label--svg">{{ with $label }}{{.}}{{else}}Pay with{{end}}</span>
+  <img src="/images/paypal-btn.svg" class="button__icon button__icon--paypal button__icon--small-paypal" />
+</button>

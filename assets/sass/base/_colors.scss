@@ -1,0 +1,30 @@
+// NSDCF Color Schemes
+//    $grey--dark:  rgb(218, 215, 215)  hsl(0, 4%, 85%)
+//   $grey--light:  rgb(235, 232, 233)  hsl(340, 7%, 91.6%)
+//     $off-white:  rgb(246, 246, 246)  hsl(0, 0, 96.5%)
+
+:root {
+  --primary-lightest:        hsl(213.6, 13.2%, 37.1%);
+  --primary-light:           hsl(216.4, 18.7%, 29.4%);
+  --primary:                 hsl(214.8, 28.4%, 21.4%);
+  --primary-dark:            hsl(213.6, 28.7%, 17.1%);
+
+  --secondary-lightest:      hsl(60, 33.3%, 99.4%);
+  --secondary-light:         hsl(30, 33.3%, 96%);
+  --secondary:               hsl(30, 33%, 94%);
+  --secondary-dark:          hsl(32, 31%, 88%);
+  --secondary-darker:        hsl(30, 31%, 80%);
+  --secondary-darkest:       hsl(31, 31%, 68%);
+
+  --tertiary-light:          hsl(217.7, 19.1%, 55.9%);
+  --tertiary:                hsl(218.5, 23.1%, 44.9%);
+  --tertiary-dark:           hsl(217.7, 23.5%, 35.9%);
+
+  --accent-light:            hsl(47.7, 89.9%, 76.7%);
+  --accent:                  hsl(47.8, 89.3%, 70.8%);
+  --accent-dark:             hsl(47.9, 64.3%, 63.7%);
+
+  --misc-black:              hsl(0, 0%, 0%);
+  --misc-white:              hsl(0, 0%, 100%);
+  --misc-red:                hsl(6, 100%, 36%);
+}

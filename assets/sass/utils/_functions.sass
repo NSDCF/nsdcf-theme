@@ -1,0 +1,90 @@
+// Get a single value from map, including nested maps
+//
+// $map  - Map.
+// $key  - Key to lookup.
+// $key2 - Key to lookup in nested tree $key. Optional.
+//
+// Returns in order: value for $key2 if present, $key or null.
+@function map-search($map, $key: null, $nested-key: null)
+  $value: null
+
+  // Get the nested color group from $colors map
+  $nested-tree: map-get($map, $key)
+
+  // Get the requested nested-key
+  @if $nested-tree
+    $value: map-get($nested-tree, $nested-key)
+    @if $value == null
+      @warn  "Key `#{$nested-key}` not found in nested tree for `#{$key}`."
+  @else
+    @warn  "Key `#{$key}` not found in map."
+
+  @return $value
+
+// Map deep get
+//
+// $map  - Map.
+// $keys - List of key values.
+//
+// Returns matching keys as map.
+@function map-deep-get($map, $keys...)
+  @each $key in $keys
+    $map: map-get($map, $key)
+
+  @return map
+
+@function breakpoint($breakpoint)
+  @return map-get($breakpoints, $breakpoint)
+
+@function scale($scale-level, $property: "size")
+  @return map-search($type-scale, $scale-level, $property)
+
+// Get appropriate color and variant from $color map.
+//
+// $name    - String specifying specific color scheme color.
+// $variant - String specifying variant of name. If null,
+//            defaults to 'base'.
+//
+// Examples
+//
+//   color(primary)
+//   color(primary, light)
+//
+// Returns color value or null if name or variant not found.
+@function tint($color, $percent: 10%)
+  @return mix(white, $color, $percent)
+
+@function shade($color, $percent: 10%)
+  @return mix(black, $color, $percent)
+
+@function strip-unit($value)
+  @return $value / ($value * 0 + 1)
+
+@function powerNumber($number, $exp)
+  $value: 1
+  @if $exp > 0
+    @for $i from 1 through $exp
+      $value: $value * $number
+  @else if $exp < 0
+    @for $i from 1 through -$exp
+      $value: $value / $number
+  @return $value
+
+@function colorLuminance($color)
+  $color-rgb: ('red': red($color),'green': green($color),'blue': blue($color))
+  @each $name, $value in $color-rgb
+    $adjusted: 0
+    $value: $value / 255
+    @if $value < 0.03928
+      $value: $value / 12.92
+    @else
+      $value: ($value + .055) / 1.055
+      $value: powerNumber($value, 2)
+    $color-rgb: map-merge($color-rgb, ($name: $value))
+  @return (map-get($color-rgb, 'red') * .2126) + (map-get($color-rgb, 'green') * .7152) + (map-get($color-rgb, 'blue') * .0722)
+
+@function findColorInvert($color)
+  @if (colorLuminance($color) > 0.55)
+    @return rgba(#000, 0.7)
+  @else
+    @return #fff

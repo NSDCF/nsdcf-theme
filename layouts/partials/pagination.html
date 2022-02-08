@@ -1,0 +1,59 @@
+{{- $paginator := $.Paginator -}}
+
+{{- if gt $paginator.TotalPages 1 -}}
+  <nav class="pagination">
+    <ul class="pagination__list">
+      {{/* First */}}
+      {{- if ne $paginator.PageNumber 1 -}}
+        <li class="pagination__item pagination__item--first">
+          <a href="{{ $paginator.First.URL }}" aria-label="First" class="pagination__link" role="button">&laquo;</a>
+        </li>
+      {{- end -}}
+
+      {{/* Previous */}}
+      {{- if $paginator.HasPrev -}}
+        <li class="pagination__item pagination__item--previous">
+          <a href="{{ $paginator.Prev.URL }}" aria-label="Previous" class="pagination__link" role="button">&lsaquo;</a>
+        </li>
+      {{- end -}}
+
+      {{/* Page numbers */}}
+      {{- $.Scratch.Set "__paginator.ellipsed" false -}}
+      {{- range $paginator.Pagers -}}
+        {{- $showNumber := 0 -}}
+        {{- $showNumber := and (gt .PageNumber (sub $paginator.PageNumber ( $.Site.Params.pagination.pagesBetweenActive | default 3 ))) (lt .PageNumber (add $paginator.PageNumber ( $.Site.Params.pagination.pagesBetweenActive | default 3 ))) -}}
+
+        {{- if $showNumber -}}
+            {{- $.Scratch.Set "__paginator.ellipsed" false -}}
+            {{- $.Scratch.Set "__paginator.shouldEllipse" false -}}
+        {{- else -}}
+            {{- $.Scratch.Set "__paginator.shouldEllipse" (not ($.Scratch.Get "__paginator.ellipsed") ) -}}
+            {{- $.Scratch.Set "__paginator.ellipsed" true }}
+        {{- end -}}
+
+        {{- if $showNumber -}}
+          <li class="pagination__item{{ if eq . $paginator }} pagination__item--active{{- end -}}">
+            <a href="{{ .URL }}" class="pagination__link" role="button">{{ .PageNumber }}</a>
+          </li>
+        {{- else if ($.Scratch.Get "__paginator.shouldEllipse") -}}
+          <li class="pagination__item pagination__item--ellipse" disabled>
+            <span aria-hidden="true" class="pagination__link pagination__link--ellipse">&hellip;</span></li>
+        {{- end -}}
+      {{- end -}}
+
+      {{/* Next */}}
+      {{- if $paginator.HasNext -}}
+        <li class="pagination__item pagination__item--next">
+          <a href="{{ $paginator.Next.URL }}" aria-label="Next" class="pagination__link" role="button">&rsaquo;</a>
+        </li>
+      {{- end -}}
+
+      {{/* Last */}}
+      {{- if ne $paginator.PageNumber $paginator.TotalPages -}}
+        <li class="pagination__item pagination__item--last">
+          <a href="{{ $paginator.Last.URL }}" aria-label="Last" class="pagination__link" role="button">&raquo;</a>
+        </li>
+      {{- end -}}
+    </ul>
+  </nav>
+{{- end -}}

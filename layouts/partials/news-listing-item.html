@@ -1,0 +1,23 @@
+<article class="card card--listing {{with .class}} {{.}}{{end}}">
+  {{ if and (.context.Resources.GetMatch "*featured*") (eq .class "card--big-summary") }}
+    {{/* big thumb; full width */}}
+    {{ partial "responsive-image" (dict "img" "*featured*" "class" "card--full-main card" "dot" .context) }}
+  {{ else if (.context.Resources.GetMatch "*featured*") }}
+    {{/* regular thumb size */}}
+    {{ partial "responsive-image" (dict "img" "*featured*" "class" "card" "dot" .context) }}
+  {{ else }}
+    {{ partial "responsive-image-placeholder" (dict "class" "card") }}
+  {{ end }}
+
+  <h3 class="card__title">
+    <a href="{{ .context.Permalink }}" class="card__link card__link--listing">{{ .context.Title }}</a>
+  </h3>
+
+  {{ partial "news-meta" .context }}
+
+  {{ if .fullsummary }}
+    <p class="card__p">{{ .context.Summary | plainify | safeHTML }}</p>
+  {{ else }}
+    <p class="card__p">{{ .context.Summary | plainify | safeHTML | truncate 180 }}</p>
+  {{ end }}
+</article>

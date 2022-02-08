@@ -1,0 +1,10 @@
+{{- $featured := (.Resources.ByType "image").GetMatch "*featured*" -}}
+<header class="mast {{ if $featured }}mast--cover{{end}} grid sub-grid">
+  {{- if $featured -}}
+    {{- partial "responsive-image" (dict "img" "*featured*" "class" "img--hero" "alt" "text" "dot" .) -}}
+  {{- end -}}
+  <h1 class="mast__title">{{ .Title }}</h1>
+  {{- if and .IsPage (eq .Section "news") -}}
+    {{- partial "news-meta" . -}}
+  {{- end -}}
+</header>

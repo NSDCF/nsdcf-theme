@@ -1,0 +1,17 @@
+{{ $files := $.Page.Resources.Match "docs/**" }}
+
+<aside class="resources">
+  <h6 class="resources__heading">Downloadable Resources</h6>
+
+  <ul class="resources__list">
+    {{ with $files }}
+      {{ range . }}
+        <li class="resources__item {{ with .Params.icon }} resources__item--{{.}}{{end}}">
+          <a href="{{ .RelPermalink }}" target="_blank"
+             class="resources__link{{ with .Params.icon }} resources__link--{{.}}{{end}}">
+             {{ replace .Title "_" " " | strings.TrimLeft "docs/" | strings.TrimRight "." | title }}</a>
+        </li>
+      {{ end }}
+    {{ end }}
+  </ul>
+</aside>

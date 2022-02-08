@@ -1,0 +1,4 @@
+<article class="{{ .class_prefix }} {{if .class_modifier}}{{ .class_prefix }}--{{ .class_modifier }}{{end}}" id="{{ .page.File.BaseFileName }}">
+  <h4 class="{{ .class_prefix }}__title">{{ .page.Title }}</h4>
+  <div class="{{ .class_prefix }}__content">{{ .page.Content }}</div>
+</article>

@@ -1,0 +1,12 @@
+<nav class="side-nav">
+  <ul class="side-nav--list">
+    <li class="side-nav__item side-nav__item--title">
+      <h6 class="side-nav__title">Navigate</h6>
+    </li>
+    {{ range .Pages.ByLinkTitle }}
+      <li class="side-nav__item">
+        <a href="{{.Permalink}}" class="side-nav__link">{{.Title}}</a>
+      </li>
+    {{ end }}
+  </ul>
+</nav>

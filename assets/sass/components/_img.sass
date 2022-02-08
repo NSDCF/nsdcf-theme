@@ -1,0 +1,89 @@
+// Common
+
+.img
+  margin: var(--prose-top-gap) 0 var(--prose-bottom-gap)
+
+.img__caption
+  font-size: var(--step--1)
+  margin: var(--prose-top-gap) 0 var(--prose-bottom-gap)
+
+.img__img
+  display: block
+  width: 100%
+
+// Left Image
+
+.img--left
+  +respond("tablet-portrait")
+    grid-column: full-gutter-start / main-start
+    grid-row: span 3
+
+.img--left-breakout
+  +respond("tablet-portrait")
+    grid-column: full-gutter-start / col 2
+    grid-row: span 3
+
+    + p,
+    + p + p,
+    + p + p + p
+      grid-column: col 2 / main-end
+
+
+// Right Image
+
+.img--right
+  +respond("tablet-portrait")
+    grid-column: col 5 / main-end
+    grid-row: span 3
+    //justify-self: end
+
+    + p,
+    + p + p
+      grid-column: main-start / col 5
+
+.img--wide-right
+  +respond("tablet-portrait")
+    grid-column: col 4 / main-end
+    grid-row: auto / span 3
+    //justify-self: end
+
+    + p,
+    + p + p
+      grid-column: main-start / col 4
+
+.img--wider-right
+  +respond("tablet-portrait")
+    grid-column: col 3 / main-end
+    grid-row: auto / span 3
+    //justify-self: end
+
+    + p,
+    + p + p
+      grid-column: main-start / col 3
+
+
+// Full-width images
+
+.img--full-main
+  grid-column: main-start / main-end
+
+.img--full-gutter
+  grid-column: full-gutter-start / main-end
+
+.img--half-gutter
+  grid-column: half-gutter-start / main-end
+
+.img--hero
+  grid-column: full-start / full-end
+  padding: 0
+  +respond("tablet-portrait")
+    grid-column: full-gutter-start / full-end
+    padding-right: 0
+
+.img__caption--hero
+  margin: 0 var(--space-m-l)
+  padding: 0 var(--space-2xs)
+
+  +respond("tablet-portrait")
+    margin: var(--space-2xs) 0 0 0
+    padding: 0 var(--space-2xs) 0 0

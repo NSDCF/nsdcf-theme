@@ -1,0 +1,98 @@
+.cards
+  grid-column: main-start / main-end
+  padding: 0
+  margin-top: var(--space-s)
+  display: grid
+  grid-template-columns: repeat(4, [col] 1fr)
+
+  &--section
+    +respond("tablet-portrait")
+      grid-template-columns: repeat(6, [col] 1fr)
+
+// Common Cards
+
+.card
+  grid-column: 1/-1
+  +respond("tablet-landscape")
+    grid-column: span 2
+
+.card-half
+  grid-column: 1/-1
+  +respond("tablet-landscape")
+    grid-column: span 3
+
+.card--board
+  grid-column: span 2
+  padding: 0 var(--space-2xs) var(--space-s)
+
+  +respond("tablet-landscape")
+    grid-column: span 1
+
+// News Listing Cards
+
+.card--listing
+  // OK!
+  grid-column: span 6
+  margin-bottom: var(--space-s)
+  padding: 0 var(--space-2xs)
+
+  +respond("tablet-portrait")
+    grid-column: span 3
+
+  +respond("desktop")
+    grid-column: span 3
+
+  +respond("desktop-wide")
+    grid-column: span 2
+
+// Card Images
+
+.card__figure,
+.card--board__figure
+  display: block
+  position: relative
+  width: 100%
+  height: 0
+  padding-top: calc(9 / 16 * 100%)
+
+  &--blank-placeholder
+    background: var(--secondary-dark)
+
+.card--board__figure
+  padding-top: calc(3 / 2 * 100%)
+
+.card__img,
+.card--board__img
+  position: absolute
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+
+// Card Text
+
+.card__title
+  margin: var(--space-s) 0 var(--space-3xs)
+
+  .card--board &
+    line-height: 1
+    margin: var(--space-xs) 0 0
+
+.card__link
+  font-style: normal
+  text-decoration: none
+  &--listing
+    color: var(--primary)
+    &:hover,
+    &:visited:hover
+      color: var(--tertiary)
+    &:visited
+      color: var(--primary)
+
+.card__subheading
+  font-size: var(--step--1)
+  font-weight: normal
+  margin: 0
+  line-height: 1.414em
+  &_span
+    display: block

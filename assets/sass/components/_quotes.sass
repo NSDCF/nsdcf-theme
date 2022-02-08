@@ -1,0 +1,121 @@
+// Blockquotes
+
+.blockquote
+  padding-left: var(--space-l)
+  padding-right: var(--space-l)
+
+  +supports("grid")
+    padding-left: 0
+    padding-right: 0
+
+    +respond("tablet-portrait")
+      grid-column: col 2 / col 6
+
+.blockquote--big
+  padding-bottom: var(--prose-bottom-gap)
+  padding-top: var(--prose-top-gap)
+
+  +respond("tablet-portrait")
+    grid-column: half-gutter-start / main-end
+
+.blockquote--centered
+  text-align: center
+
+.blockquote__p, .blockquote p
+  font-style: italic
+  position: relative
+  &:before
+    color: var(--secondary-darkest)
+    content: "\201C"
+    font-size: var(--step-5)
+    position: absolute
+    left: calc(var(--space-s-xl) * -1)
+    top: calc(var(--space-m) * -1)
+    //margin-left: -.42em
+    //margin-top: -.22em
+
+  .blockquote--big &
+    font-size: var(--step-1)
+
+.blockquote__cite
+  display: block
+  margin: calc(var(--prose-top-gap) * -1) 0 var(--prose-bottom-gap)
+  position: relative
+  &:before
+    content: "\2014"
+
+  .blockquote--big &
+    text-align: left
+
+  .blockquote--centered &
+    text-align: center
+
+.blockquote__cite-name
+  font-style: normal
+  font-weight: bold
+
+.blockquote__cite-title
+  display: block
+
+// Pullquotes
+
+.pullquote
+  font-style: italic
+
+  +respond("tablet-portrait")
+    grid-column: full-gutter-start / main-start
+    grid-row: span 2
+
+    float: left
+    padding-right: var(--space-s)
+    width: 33%
+
+    +supports("grid")
+      padding-right: 0
+      width: auto
+
+.pullquote--left-breakout
+  +respond("tablet-portrait")
+    grid-column: half-gutter-start / col 2
+
+    + p
+      grid-column: col 2 / main-end
+
+.pullquote--left-wide-breakout
+  +respond("tablet-portrait")
+    grid-column: half-gutter-start / col 3
+
+    + p
+      grid-column: col 3 / main-end
+
+.pullquote--right
+  float: right
+  padding: 0 0 0 var(--space-s)
+
+  +respond("tablet-portrait")
+    grid-column: col 5 / main-end
+    justify-self: end
+
+    + p
+      grid-column: main-start / col 5
+
+.pullquote--wide-right
+  float: right
+  padding: 0 0 0 var(--space-s)
+
+  +respond("tablet-portrait")
+    grid-column: col 4 / main-end
+
+    + p
+      grid-column: main-start / col 4
+
+.pullquote-right
+.pullquote--wide-right,
+  +supports("grid")
+    padding: 0
+
+.pullquote__p
+  margin-top: 0
+
+  +supports("grid")
+    margin-top: var(--prose-top-gap)

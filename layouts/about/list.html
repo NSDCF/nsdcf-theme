@@ -1,0 +1,30 @@
+{{ define "main" }}
+  {{- $images := .Resources.ByType "image" -}}
+  {{- $featured := $images.GetMatch "*feature*" -}}
+  {{- $featured := cond (ne $featured nil) $featured ($images.GetMatch "{*cover*,*thumbnail*}") -}}
+  {{- $featured := $featured.Fill "1600x720" -}}
+
+  <article class="content-grid">
+    <header class="mast mast--section{{ with $featured}} mast--section-has-image{{end}} grid">
+      <h1 class="mast__title">{{ .Title }}</h1>
+      {{ with $featured -}}
+        <figure class="mast__fig">
+          <img src="{{ $featured.Permalink }}" class="mast__img"/>
+        </figure>
+      {{- end -}}
+    </header>
+    <div class="content grid">{{ .Content }}</div>
+  </article>
+
+  <section class="grid">
+    {{ with .Site.GetPage "story/board" }}
+      <div class="board-members grid">
+        <h2 class="board__heading">{{ .Title | title }}</h2>
+        {{.Content}}
+        <div class="cards">
+          {{ partial "board-members" . }}
+        </div>
+      </div>
+    {{ end }}
+  </section>
+{{ end }}

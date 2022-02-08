@@ -1,0 +1,124 @@
+// Responsive Breakpoints
+// All values are used for min-widths queries, except for phone. Em
+// values relative to root font size of 16px.
+
+:root {
+  --tablet-portrait: 600px;
+  --tablet-landscape: 912px;
+  --desktop: 1200px;
+  --desktop-wide: 1440px;
+  --max: 1600px;
+
+  // Fluid Spacing
+  // Min viewport - 320px, 16px font size, 1.2 type scale (augmented fourth)
+  // Max viewport - 1600px, 24px font size, 1.414 type scale (augmented fourth)
+  // Generated with Utopia Fluid Space Calculator
+  // @link
+  --fluid-min-width: 320;
+  --fluid-max-width: 1600;
+
+  --fluid-screen: 100vw;
+  --fluid-bp: calc((var(--fluid-screen) - var(--fluid-min-width) / 16 * 1rem) / (var(--fluid-max-width) - var(--fluid-min-width)));
+}
+
+$breakpoints: (
+  "tablet-portrait": 600px,
+  "tablet-landscape": 912px,
+  "desktop": 1200px,
+  "desktop-wide": 1440px,
+  "max": 1600px
+);
+
+@mixin respond($breakpoint-name) {
+  @if $breakpoint-name == "mobile-only" {
+    @media screen and (max-width: map-get($breakpoints, tablet-portrait)) { @content; }
+  } @else {
+    $breakpoint-width: map-get($breakpoints, $breakpoint-name);
+    @media screen and (min-width: #{$breakpoint-width}) { @content; }
+  }
+}
+
+@mixin print {
+  @media print { @content; }
+}
+
+@include respond("max") {
+  :root {
+    --fluid-screen: calc(var(--fluid-max-width) * 1px);
+  }
+}
+
+:root {
+  --fc-3xs-min: (var(--fc-s-min) * 0.25);
+  --fc-3xs-max: (var(--fc-s-max) * 0.25);
+
+  --fc-2xs-min: (var(--fc-s-min) * 0.5);
+  --fc-2xs-max: (var(--fc-s-max) * 0.5);
+
+  --fc-xs-min: (var(--fc-s-min) * 0.75);
+  --fc-xs-max: (var(--fc-s-max) * 0.75);
+
+  --f-0-min: 16;
+  --f-0-max: 24;
+
+  --fc-s-min: (var(--f-0-min));
+  --fc-s-max: (var(--f-0-max));
+
+  --fc-m-min: (var(--fc-s-min) * 1.5);
+  --fc-m-max: (var(--fc-s-max) * 1.5);
+
+  --fc-l-min: (var(--fc-s-min) * 2);
+  --fc-l-max: (var(--fc-s-max) * 2);
+
+  --fc-xl-min: (var(--fc-s-min) * 3);
+  --fc-xl-max: (var(--fc-s-max) * 3);
+
+  --fc-2xl-min: (var(--fc-s-min) * 4);
+  --fc-2xl-max: (var(--fc-s-max) * 4);
+
+  --fc-3xl-min: (var(--fc-s-min) * 6);
+  --fc-3xl-max: (var(--fc-s-max) * 6);
+
+  --fc-4xl-min: (var(--fc-s-min) * 7);
+  --fc-4xl-max: (var(--fc-s-max) * 7);
+
+  --fc-5xl-min: (var(--fc-s-min) * 10);
+  --fc-5xl-max: (var(--fc-s-max) * 10);
+
+  --fc-6xl-min: (var(--fc-s-min) * 16);
+  --fc-6xl-max: (var(--fc-s-max) * 16);
+
+  // T-shirt space sizes. Default space for normal use (i.e. content paragraphs) is --space-s.
+  --space-3xs: calc(((var(--fc-3xs-min) / 16) * 1rem) + (var(--fc-3xs-max) - var(--fc-3xs-min)) * var(--fluid-bp));
+  --space-2xs: calc(((var(--fc-2xs-min) / 16) * 1rem) + (var(--fc-2xs-max) - var(--fc-2xs-min)) * var(--fluid-bp));
+  --space-xs: calc(((var(--fc-xs-min) / 16) * 1rem) + (var(--fc-xs-max) - var(--fc-xs-min)) * var(--fluid-bp));
+  --space-s: calc(((var(--fc-s-min) / 16) * 1rem) + (var(--fc-s-max) - var(--fc-s-min)) * var(--fluid-bp));
+  --space-m: calc(((var(--fc-m-min) / 16) * 1rem) + (var(--fc-m-max) - var(--fc-m-min)) * var(--fluid-bp));
+  --space-l: calc(((var(--fc-l-min) / 16) * 1rem) + (var(--fc-l-max) - var(--fc-l-min)) * var(--fluid-bp));
+  --space-xl: calc(((var(--fc-xl-min) / 16) * 1rem) + (var(--fc-xl-max) - var(--fc-xl-min)) * var(--fluid-bp));
+  --space-2xl: calc(((var(--fc-2xl-min) / 16) * 1rem) + (var(--fc-2xl-max) - var(--fc-2xl-min)) * var(--fluid-bp));
+  --space-3xl: calc(((var(--fc-3xl-min) / 16) * 1rem) + (var(--fc-3xl-max) - var(--fc-3xl-min)) * var(--fluid-bp));
+  --space-4xl: calc(((var(--fc-4xl-min) / 16) * 1rem) + (var(--fc-4xl-max) - var(--fc-4xl-min)) * var(--fluid-bp));
+  --space-5xl: calc(((var(--fc-5xl-min) / 16) * 1rem) + (var(--fc-5xl-max) - var(--fc-5xl-min)) * var(--fluid-bp));
+  --space-6xl: calc(((var(--fc-6xl-min) / 16) * 1rem) + (var(--fc-6xl-max) - var(--fc-6xl-min)) * var(--fluid-bp));
+
+  // Common single step space pairs
+  --space-3xs-2xs: calc(((var(--fc-3xs-min) / 16) * 1rem) + (var(--fc-2xs-max) - var(--fc-3xs-min)) * var(--fluid-bp));
+  --space-2xs-xs: calc(((var(--fc-2xs-min) / 16) * 1rem) + (var(--fc-xs-max) - var(--fc-2xs-min)) * var(--fluid-bp));
+  --space-xs-s: calc(((var(--fc-xs-min) / 16) * 1rem) + (var(--fc-s-max) - var(--fc-xs-min)) * var(--fluid-bp));
+  --space-s-m: calc(((var(--fc-s-min) / 16) * 1rem) + (var(--fc-m-max) - var(--fc-s-min)) * var(--fluid-bp));
+  --space-m-l: calc(((var(--fc-m-min) / 16) * 1rem) + (var(--fc-l-max) - var(--fc-m-min)) * var(--fluid-bp));
+  --space-l-xl: calc(((var(--fc-l-min) / 16) * 1rem) + (var(--fc-xl-max) - var(--fc-l-min)) * var(--fluid-bp));
+  --space-xl-2xl: calc(((var(--fc-xl-min) / 16) * 1rem) + (var(--fc-2xl-max) - var(--fc-xl-min)) * var(--fluid-bp));
+  --space-2xl-3xl: calc(((var(--fc-2xl-min) / 16) * 1rem) + (var(--fc-3xl-max) - var(--fc-2xl-min)) * var(--fluid-bp));
+
+  // Custom space pairs
+  --space-s-l: calc(((var(--fc-s-min) / 16) * 1rem) + (var(--fc-l-max) - var(--fc-s-min)) * var(--fluid-bp));
+  --space-s-xl: calc(((var(--fc-s-min) / 16) * 1rem) + (var(--fc-xl-max) - var(--fc-s-min)) * var(--fluid-bp));
+  --space-s-2xl: calc(((var(--fc-s-min) / 16) * 1rem) + (var(--fc-2xl-max) - var(--fc-s-min)) * var(--fluid-bp));
+  --space-s-3xl: calc(((var(--fc-s-min) / 16) * 1rem) + (var(--fc-3xl-max) - var(--fc-s-min)) * var(--fluid-bp));
+
+  // Common vertical rhythm spacing
+  --prose-top-gap: var(--space-2xs);
+  --prose-bottom-gap: var(--space-2xs);
+}

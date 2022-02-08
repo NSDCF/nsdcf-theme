@@ -1,0 +1,22 @@
+.board-members
+  grid-column: full-gutter-start / main-end
+  padding-top: var(--space-xl)
+
+.card--board
+  //grid-area: auto / one / auto / one
+
+.slide--history
+  align-content: center
+  margin-top: var(--space-xl)
+  justify-content: center
+
+  .slide__heading
+    grid-column: half-gutter-start / col 5
+    font-size: var(--step-2)
+    font-style: italic
+    margin-top: 0
+
+  p
+    grid-column: col 2 / main-end
+    &:first-of-type::first-line
+      font-variant: small-caps

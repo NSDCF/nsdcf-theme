@@ -1,0 +1,178 @@
+.footer
+  background: var(--secondary-lightest)
+  padding-top: var(--space-l)
+  padding-bottom: var(--space-m)
+  margin-top: var(--space-xl)
+
+  .home &
+    margin-top: 0
+
+.footer__heading
+  margin-bottom: 0
+
+.footer__heading-link
+  font-family: $font-sans-serif
+  font-size: var(--step--1)
+  font-style: normal
+  font-weight: 400
+  letter-spacing: .1em
+  text-decoration: none
+  text-transform: uppercase
+
+.footer__copyright
+  font-size: var(--step--1)
+
+  +respond("desktop-wide")
+    grid-column: col 3 / main-end
+
+// Newsletter
+
+.newsletter
+  +respond("desktop-wide")
+    grid-column: col 3 / main-end
+    grid-row: 1
+
+.newsletter__heading
+  font-size: var(--step-0)
+  margin: var(--space-l) 0 var(--prose-bottom-gap)
+  font-weight: 400
+
+.newsletter-form
+  display: flex
+
+.newsletter-form__input
+  background-color: var(--secondary-light)
+  border: 1px solid var(--secondary-dark)
+  border-radius: .25em 0 0 .25em
+  font-family: $font-serif
+  font-size: var(--step--0)
+  line-height: 1
+  padding: var(--space-2xs) var(--space-xs)
+  width: 100%
+
+  &:focus
+    outline: none
+    background-color: var(--secondary)
+    border-color: var(--secondary-darkest)
+
+
+.newsletter-form__button
+  background-color: var(--tertiary)
+  border: 1px solid var(--tertiary)
+  border-radius: 0 .25em .25em 0
+  box-shadow: none
+  color: var(--secondary-lightest)
+  cursor: pointer
+  font-family: $font-sans-serif
+  font-size: var(--step--1)
+  letter-spacing: .1em
+  padding: 0 var(--space-xs)
+  text-transform: uppercase
+
+  &:hover
+    background-color: var(--primary-lightest)
+    border-color: var(--primary-lightest)
+
+  &:active, &:focus
+    background-color: var(--primary-dark)
+    border-color: var(--primary-dark)
+
+// Footer Menus
+
+.footer-contact
+  +respond("tablet-landscape")
+    grid-column: col 4 / main-end
+  +respond("desktop-wide")
+    grid-column: col 3 / main-end
+
+.footer-nav
+  margin-top: var(--space-m)
+
+  +respond("tablet-landscape")
+    grid-column: main-start / col 4
+
+  +respond("desktop-wide")
+    grid-column: col 3 / main-end
+
+
+.footer-menu
+  margin: 0
+  padding: 0
+  list-style: none
+
+.footer-menu--main
+  +respond("desktop-wide")
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+
+    .footer-menu__li
+      min-width: 34%
+
+.footer-menu__link
+  font-style: normal
+  text-decoration: none
+
+  &--external
+    &:after
+      background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0xNS42Mzk2IDcuMDI1MjdIMTIuMDE4MVY1LjAyNTI3SDE5LjAxODFWMTIuMDI1M0gxNy4wMTgxVjguNDc1MjhMMTIuMTA0MiAxMy4zODkyTDEwLjY4OTkgMTEuOTc1TDE1LjYzOTYgNy4wMjUyN1oiLz48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0xMC45ODE5IDYuOTc0NzNINC45ODE5M1YxOC45NzQ3SDE2Ljk4MTlWMTIuOTc0N0gxNC45ODE5VjE2Ljk3NDdINi45ODE5M1Y4Ljk3NDczSDEwLjk4MTlWNi45NzQ3M1oiLz48L3N2Zz4=") 100% -100% / 110% 110% no-repeat
+      //background-size: var(--step-0) var(--step-0)
+      content: ""
+      display: inline-block
+      width: var(--step-0)
+      height: var(--step-0)
+      margin-left: var(--space-3xs)
+      filter: invert(37%) sepia(54%) saturate(270%) hue-rotate(180deg) brightness(98%) contrast(93%)
+    &:hover:after
+      filter: invert(10%) sepia(10%) saturate(2921%) hue-rotate(173deg) brightness(90%) contrast(84%)
+
+  &--email
+    font-style: italic
+
+// Footer Social Links
+
+.footer__social-links
+  align-items: center
+  display: flex
+  height: var(--step-1)
+  margin-top: var(--prose-top-gap)
+  margin-left: -.135em
+
+  +respond("desktop-wide")
+    margin-bottom: var(--space-m)
+
+.social-heading
+  margin: 0 var(--space-2xs) 0 0
+  line-height: 1
+
+.social-link
+  display: inline-flex
+  align-self: center
+  margin-right: var(--space-xs)
+
+.social-link__svg
+  height: var(--step-1)
+  filter: invert(14%) sepia(7%) saturate(2931%) hue-rotate(174deg) brightness(93%) contrast(91%)
+  &:hover
+    filter: brightness(0) saturate(100%) invert(46%) sepia(7%) saturate(1710%) hue-rotate(183deg) brightness(97%) contrast(86%)
+
+
+.footer__logo-link
+  color: var(--primary-dark)
+  font-family: $font-serif
+  line-height: 1
+  font-size: var(--step-1)
+  font-style: normal
+  font-weight: 600
+  margin: var(--space-l) 0 var(--prose-bottom-gap)
+  text-decoration: none
+
+  &:hover
+    color: var(--tertiary-dark)
+
+  +respond("desktop-wide")
+    grid-column: half-gutter-start / col 3
+    grid-row: 1
+
+.footer__logo-link-span
+  display: block

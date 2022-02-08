@@ -1,0 +1,200 @@
+=base-input-no-bg
+  appearance: none
+  border: 1px solid var(--secondary-dark)
+  color: var(--primary)
+  font-family: $font-serif
+  outline: none
+  padding: var(--space-s)
+=base-input
+  +base-input-no-bg
+  background: var(--secondary-light)
+  &:focus
+    background: var(--secondary-lightest)
+    border-color: var(--primary)
+
+  &::placeholder
+    color: var(--primary-lightest)
+
+.form
+  &--centered
+    +respond("tablet-landscape")
+      margin: 0 auto
+      max-width: 24em
+
+  &__button
+    background: var(--secondary-lightest)
+    border: 1px solid var(--secondary-dark)
+    border-radius: .25em
+    cursor: pointer
+    font-family: $font-sans-serif
+    margin-top: var(--step-0)
+    padding: var(--step-0) var(--space-s)
+    outline: none
+
+    &:focus
+      box-shadow: 0px 0px .35em var(--secondary-dark)
+
+    &:hover
+      background-color: var(secondary-light)
+
+    &--tertiary
+      background: var(--tertiary)
+      color: var(--secondary-lightest)
+
+      &:focus
+        box-shadow: 0px 0px .25em var(--tertiary-light)
+
+      &:hover
+        background-color: var(--tertiary-light)
+
+    &--centered
+      margin-left: auto
+      margin-right: auto
+
+  &__description
+    display: block
+    font-size: var(--step--1)
+    padding: 0
+
+  &__field
+    margin-top: 0
+
+  &__half-fields
+    +respond("tablet-landscape")
+      display: flex
+  &__half-field
+    +respond("tablet-landscape")
+      width: 50%
+      &:first-child
+        padding-right: var(--space-s)
+
+  &__fieldset
+    border: 0
+    padding: 0
+    margin-top: var(--space-s)
+
+  &__input
+    +base-input
+    background: var(--secondary-light)
+    box-sizing: border-box
+    display: block
+    font-size: var(--step-0)
+    margin: var(--space-xs) 0
+    width: 100%
+
+  &__label
+    display: block
+    font-size: var(--step--1)
+    font-weight: 600
+
+  &__select
+    background: var(--secondary)
+    border: 1px solid #ccc
+    color: var(--primary)
+    font-size: var(--step-0)
+    font-family: $font-serif
+    outline: none
+    padding: var(--space-xs) var(--space-s)
+    &--full
+      width: 100%
+
+  &__textarea
+    +base-input-no-bg
+    transition: background .2s ease-out;
+    margin: var(--space-xs) 0 0
+    padding: var(--space-xs)
+    width: 100%
+    &:focus
+      background: var(--secondary-lightest)
+
+.button
+  &--svg
+    display: flex
+    align-self: center
+    vertical-align: middle
+
+  &--paypal
+    // Tweak padding size due to dimensions of Paypal logo SVG
+    // for more even appearance
+    border-radius: .25em
+    color: var(--primary-light)
+    padding: var(--space-s) var(--space-m) var(--space-xs)
+    margin: var(--space-s) auto 0
+
+  &__icon
+    &--paypal
+      height: var(--step-1)
+      margin-left: var(--space-2xs)
+
+    &--small-paypal
+      height: 1em
+      margin-top: auto
+
+.button__label--svg
+  font-size: var(--step-0)
+
+.checkbox
+  margin-top: var(--space-2xs)
+
+  &__input
+    position: absolute
+    opacity: 0
+    z-index: -1
+
+    & + label::after
+      content: none
+
+    &:checked + label
+      &::before
+        background: var(--tertiary-light)
+
+      &::after
+        content: ""
+        border-color: var(--secondary-lightest)
+
+    &:focus + label::before
+      box-shadow: 0 0 0 .075rem #fff, 0 0 0 .2rem var(--tertiary-light)
+      outline: 0
+
+  &__label
+    padding-left: var(--space-s)
+    position: relative
+
+    &--p
+      display: inline-block
+
+
+    &::before
+      background: var(--secondary)
+      border: none
+      border-radius: .185em
+      content: ""
+      display: inline-block
+      height: 1em
+      width: 1em
+      position: absolute
+      left: 0px
+      top: 3px
+
+    &::after
+      border-left: .125em solid
+      border-bottom: .125em solid
+      content: ""
+      display: inline-block
+      height: .25em
+      width: .65em
+      position: absolute
+      left: .2em
+      top: .425em
+      transform: rotate(-45deg)
+
+  &__p
+    margin-top: 0
+
+  &__span
+    font-size: var(--step--1)
+
+.form__info
+  font-size: var(--step--1)
+  margin-left: var(--space-s)
+  margin-right: var(--space-s)

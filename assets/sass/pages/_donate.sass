@@ -1,0 +1,192 @@
+.donate-subheading
+  margin: var(--prose-top-gap) 0
+  font-weight: 300
+  +respond("tablet-landscape")
+    grid-column: half-gutter-start / col 3
+  // +respond("desktop")
+  //   grid-column: main-start / col 3
+
+.donate-intro
+  +respond("tablet-landscape")
+    grid-column: col 3 / main-end
+  +respond("desktop")
+    grid-column: col 3 / main-end
+
+  p:first-child::first-line
+    font-variant: small-caps
+
+.donate-highlights
+  background: var(--secondary-lightest)
+  padding-top: var(--space-s)
+  padding-bottom: var(--space-s)
+  margin: var(--space-l) 0
+  +respond("tablet-landscape")
+    padding-top: 0
+    padding-bottom: 0
+
+.donate-highlight-item
+  margin-bottom: var(--space-s)
+  text-align: center
+  &:last-of-type
+    margin-bottom: 0
+  +respond("tablet-landscape")
+    border-right: 1px solid var(--secondary)
+    grid-column: span 2
+    margin-bottom: 0
+    padding-top: var(--space-m)
+    padding-bottom: var(--space-m)
+    &:first-of-type
+      grid-column: main-start / span 2
+    &:last-of-type
+      border-right: 0
+
+.donate-highlight-item__caption
+  display: block
+  font-style: italic
+  line-height: 1em
+
+.donate-highlight-item__number
+  display: block
+  font-size: var(--step-2)
+  &--dollars::before
+    content: "$"
+
+.donate-other-options
+  margin-top: var(--space-xl)
+
+.donations-nav-link
+  +respond("tablet-landscape")
+    grid-column: col 3 / main-end
+
+.donations-nav-link__title
+  margin: var(--space-xs) 0
+
+.donations-nav-link__title a
+  display: block
+  &:after
+    content: "\27F6"
+    font-size: var(--step--1)
+    margin-top: calc(var(--step-0) - var(--step--1))
+    float: right
+    //color: var(--tertiary-lightest)
+    &:hover
+      color: var(--primary)
+
+.donate-form
+  background: var(--secondary-dark)
+  margin: var(--space-l) 0
+  padding-top: var(--space-l)
+  padding-bottom: var(--space-l)
+
+.donation_form__form
+  +respond("tablet-landscape")
+    grid-column: col 3 / main-end
+  +respond("desktop")
+    grid-column: col 3 / main-end
+
+.donation_form__fieldgroup
+  margin-bottom: var(--prose-bottom-gap)
+  &--btn
+    text-align: center
+
+.form__select--donate
+  width: 100%
+
+.donation_form__small_msg
+  font-size: var(--step--1)
+
+.donation_boxes
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-wrap: wrap
+  +respond("tablet-landscape")
+    margin: 0 auto
+
+.donation_box
+  //border: 1px solid color(background, dark)
+  //width: 50%
+  margin: 0 var(--space-2xs) var(--space-2xs) 0
+  flex: 1 1 48%
+  flex-wrap: wrap
+  +respond("tablet-portrait")
+    flex: 1 1 30%
+
+.donation_box
+  &__check
+    position: absolute
+    opacity: 0
+    z-index: -1
+    &:checked
+      + label
+        background-color: hsla(54, 89%, 78.6%, 0.5)
+        border-color: var(--accent)
+
+  &__label
+    background: var(--secondary)
+    border: 1px solid var(--secondary-darker)
+    border-radius: .25em
+    cursor: pointer
+    display: block
+    width: 100%
+    transition: background-color 0.1s, border-color 0.1s
+    text-align: center
+    vertical-align: middle
+
+  &__amt
+    font-size: var(--step-1)
+    //line-height: 1.25em
+    display: inline-block
+    padding: .5em 0
+
+    &--other
+      // is 1.999em
+      font-size: .9995em
+      padding: 1em 0
+
+  &__currency
+    display: inline-block
+    font-size: var(--step--1)
+    vertical-align: super
+
+  &__custom
+    -webkit-appearance: none
+    border: 0
+    //border-bottom: 4px dashed color(background, dark)
+    font-family: $font-sans-serif
+    font-size: var(--step-1)
+    padding: .23em 0
+    text-align: center
+    height: 100%
+    width: 5ch
+
+.donation_form__fieldgroup--directed
+  margin-right: var(--space-2xs)
+
+
+// .form__select
+//   &--donate
+//     display: block
+//     resize: none
+//     +respond("tablet-landscape")
+//       margin: 0 auto
+//       max-width: 22em
+//   &--shop
+//     margin-right: $gutter
+//     +respond("tablet-landscape")
+//       min-width: 18em
+//
+// .directed_donation_other,
+// .donation_form_hidden_items
+//   .html--js &
+//     max-height: 0;
+//     transition: max-height 0.5s ease-out;
+//     overflow: hidden;
+//     &--active
+//       max-height: 50em;
+//       transition: max-height 0.5s ease-in;
+//
+// .donation_form_hidden_items
+//   .html--js &
+//     padding-left: 3em
+//     margin-left: -3em

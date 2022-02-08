@@ -1,0 +1,26 @@
+{{ define "title"}}{{ .Site.Params.title}}{{end}}
+
+{{ define "main" }}
+  <section class="home-section--hero grid">
+    <h1 class="home-section__hero-title">{{ .Title }}</h1>
+    {{ partial "responsive-image" (dict "img" "featured" "class" "home-hero" "dot" .) }}
+  </section>
+
+  {{ range first 1 (where .Site.Pages ".Params.banner.active" true) }}
+    {{ partial "home/banner" . }}
+  {{ end }}
+
+  {{.Content}}
+
+  <section class="home-news grid home-section">
+    <div class="home-listings__intro">
+      <h2 class="home-listings__heading">Latest News</h2>
+    </div>
+
+    <div class="news-listings">
+      {{ range first 3 (where $.Site.RegularPages "Section" "news") }}
+        {{ partial "news-listing-item" (dict "context" . "class" "listing--home" "fullsummary" false) }}
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

@@ -1,0 +1,38 @@
+=meta__divider-after
+  content: " \b7\a0"
+  color: var(--primary-lightest)
+
+.meta
+  font-size: var(--step--1)
+  grid-column: main-start / main-end
+
+.meta__author
+  display: inline-block
+  font-style: normal
+
+  &::after
+    +meta__divider-after
+
+
+.meta-categories
+  +reset-list
+  display: inline-block
+
+  &::after
+    +meta__divider-after
+
+.meta-categories__heading
+  font-style: italic
+
+.meta-categories__item
+  display: inline-block
+
+  &::after
+    content: ", "
+    white-space: pre
+
+  &:last-of-type::after
+    content: none
+
+.meta-categories__link
+  text-decoration: none

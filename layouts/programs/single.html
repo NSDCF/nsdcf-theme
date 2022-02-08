@@ -1,0 +1,37 @@
+{{ define "main" }}
+  {{- $images := .Resources.ByType "image" -}}
+  {{- $featured := $images.GetMatch "*feature*" -}}
+  {{- $featured := cond (ne $featured nil) $featured ($images.GetMatch "{*cover*,*thumbnail*}") -}}
+  {{- $featured := $featured.Fill "1600x720" -}}
+
+  <article class="content-grid">
+    <header class="mast mast--section{{ with $featured}} mast--section-has-image{{end}} grid">
+      <h1 class="mast__title">{{ .Title }}</h1>
+      {{ with $featured -}}
+        <figure class="mast__fig">
+          <img src="{{ $featured.Permalink }}" class="mast__img"/>
+        </figure>
+      {{- end -}}
+    </header>
+
+    <div class="content grid">
+      {{ .Content }}
+      {{ if .Resources.Match "docs/*" }}
+        {{ partial "resource_links" . }}
+      {{ end }}
+    </div>
+
+    <section class="grid">
+      <div class="cards cards--section grid">
+        {{ range .Resources.Match "*.md" }}
+          {{ $shortName := .Name | strings.TrimPrefix "scholarship_" | strings.TrimSuffix ".md" }}
+
+          <article class="card-half" id="{{ $shortName }}">
+            <h4 class="card__title">{{ .Title }}</h4>
+            <div class="listing__summary"> {{ .Content | markdownify }}</div>
+          </article>
+        {{ end }}
+      </div>
+    </section>
+  </article>
+{{ end }}

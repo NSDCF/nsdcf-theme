@@ -1,0 +1,7 @@
+name = "NSDCF"
+description = "Theme for nsdcf.org and norwinalumni.org"
+min_version = 0.92
+
+[author]
+    name = "NSDCF"
+    homepage = "https://nsdcf.org"

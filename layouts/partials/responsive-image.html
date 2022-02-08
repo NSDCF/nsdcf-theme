@@ -1,0 +1,84 @@
+{{- $dot     := .dot -}}
+{{- $orig    := (.dot.Resources.ByType "image").GetMatch .img -}}
+{{- $classes := split .class " " -}}
+{{- $class   := index $classes 0 -}}
+{{- $alt     := cond (ne ($orig.Params.alt) nil) $orig.Params.alt (.alt) }}
+{{- $caption := cond (ne $orig.Params.caption nil) $orig.Params.caption (.caption) }}
+{{- $cite    := cond (ne $orig.Params.citation nil) $orig.Params.citation (.cite) }}
+{{- $lazy    := cond (eq .lazy "true") (true) (false) -}}
+{{- $crop    := .crop }}
+
+{{- $cols := "" }}
+{{- if or (eq $class "img--hero") (eq $class "img--full-gutter") (eq $class "home-hero") -}}
+  {{- $cols = "8" -}}
+{{- else if eq $class "img--half-gutter" -}}
+  {{- $cols = "7" -}}
+{{- else if or (eq $class "img--full-main") (eq $class "card--full-main") -}}
+  {{- $cols = "6" -}}
+{{- else if or (eq $class "img--wider-right") (eq $class "img--half-full") -}}
+  {{- $cols = "4" -}}
+{{- else if or (eq $class "img--left-breakout") (eq $class "img--half-main") (eq $class "img--wide-right") -}}
+  {{- $cols = "3" -}}
+{{- else if or (eq $class "img--left") (eq $class "img--right") (eq $class "img--third-main") (eq $class "card") -}}
+  {{- $cols = "2" -}}
+{{- else -}}
+  {{/* Defaults to single column equivalent */}}
+  {{- $cols = "1" -}}
+{{- end -}}
+
+{{- $widths  := (slice "400" "600" "768" "1024" "1280" "1366" "1440" "1600" "1680" "1920") -}}
+{{- range $widths -}}
+  {{- if (ge $orig.Width .) -}}
+    {{- if eq $crop "wide" -}}
+      {{/* Crops to 2.35:1 aspect ratio (1920/7)*3 */}}
+      {{- $dot.Scratch.SetInMap "images" . ($orig.Fit (print . "x" (div (int .) 7 | mul 3))) -}}
+    {{- else if eq $crop "square" -}}
+      {{- $dot.Scratch.SetInMap "images" . ($orig.Resize (print . "x" .)) }}
+    {{- else -}}
+      {{- $dot.Scratch.SetInMap "images" . ($orig.Resize (print . "x")) }}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $processed := $dot.Scratch.Get "images" -}}
+{{- $counter   := 0 -}}
+
+<figure{{ with $classes }} class="{{range . }}{{.}}__figure {{end}}"{{end}}>
+  <img sizes="{{- if eq $cols "8" -}}
+                100vw
+              {{- else if eq $cols "7" -}}
+                (max-width: 912px) 100vw,
+                (min-width: 912px) 75vw
+              {{- else if eq $cols "6" -}}
+                (max-width: 912px) 100vw,
+                (min-width: 912px) 65vw
+              {{- else if eq $cols "5" -}}
+                (max-width: 912px) 100vw,
+                (min-width: 912px) 55vw
+              {{- else if eq $cols "4" -}}
+                (max-width: 912px) 100vw,
+                (min-width: 912px) 44vw
+              {{- else if eq $cols "3" -}}
+                (max-width: 912px) 50vw,
+                (min-width: 912px) 33vw
+              {{- else if eq $cols "2" -}}
+                (max-width: 912px) 35vw,
+                (min-width: 912px) 23vw
+              {{- else -}}
+                {{/* $cols "1" */}}
+                (max-width: 912px) 25vw,
+                (min-width: 912px) 12vw
+              {{- end -}}"
+        srcset="{{- range $i, $e := $processed -}}
+                  {{ if ne $counter 0 }}, {{end}}{{$e.Permalink}} {{$e.Width}}w{{- $counter = add $counter 1 -}}
+                {{- end -}}"
+        src="{{ $orig.Permalink }}"
+        class="{{range $classes }}{{.}}__img {{end}}{{if $crop}}{{$class}}__img--{{$crop}}{{end}}"
+        {{- if $alt }} alt="{{$alt}}"{{ else if $caption }} alt="{{$caption}}"{{end}}
+        {{- if $lazy }} loading="lazy"{{ end }} />
+
+  {{- if $caption -}}
+    <figcaption class="img__caption{{ if eq .size "hero" }} img__caption--hero{{ end }}">
+      <p class="img__caption_p">{{$caption}}{{ if $cite }}<span class="img__cite">{{$cite}}</span>{{end}}</p>
+    </figcaption>
+  {{- end -}}
+</figure>

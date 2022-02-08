@@ -1,0 +1,17 @@
+.alumni_intro
+  h2
+    +respond("tablet-landscape")
+      grid-column: full-gutter-start / col 3
+      grid-row: span 2
+    +respond("desktop")
+      grid-column: half-gutter-start / col 3
+    font-size: var(--step-2)
+    font-style: italic
+    margin-top: 0
+  p
+    +respond("tablet-landscape")
+      grid-column: col 3 / main-end
+    +respond("desktop")
+      grid-column: col 3 / main-end
+    &:first-of-type::first-line
+      font-variant: small-caps

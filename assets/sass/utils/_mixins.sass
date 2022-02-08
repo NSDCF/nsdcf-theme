@@ -1,0 +1,70 @@
+=font-face($name, $path, $weight: 400, $style: "normal")
+  @font-face
+    font-family: $name
+    font-style: $style
+    font-weight: $weight
+    src: url(quote($path + ".woff2")) format("woff2"), url(quote($path + ".woff")) format("woff")
+
+=background-image-set($url-1x, $url-2x)
+  background-image: url(#{$url-1x})
+  background-image: -webkit-image-set(url(#{$url-1x}) 1x, url(#{$url-2x}) 2x)
+
+=supports($rule)
+  @if $rule == "grid"
+    // @supports(display: grid) will return true for certain versions of Microsoft Edge
+    // that implement an older grid specification that doesn't support grid-template-areas,
+    // grid-areas, or the minmax() function. Instead, test for @supports(grid-area: auto)
+    @supports(grid-area: auto)
+      @content
+  @else if $rule == "clip-path"
+    @supports(clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%))
+      @content
+  @else if $rule == "animation"
+    @supports(animation-name: foo)
+      @content
+  @else
+    @supports(#{$rule})
+      @content
+
+// Miscellania
+
+=clearfix
+  &:after
+    clear: both
+    content: " "
+    display: table
+
+=reset-list
+  margin: 0
+  padding: 0
+  text-indent: 0
+  list-style-type: none
+
+=loader
+  animation: spinAround 500ms infinite linear
+  border: 2px solid $border
+  @if $radius-rounded
+    border-radius: $radius-rounded
+  border-right-color: transparent
+  border-top-color: transparent
+  content: ""
+  display: block
+  height: 1em
+  position: relative
+  width: 1em
+
+=overflow-touch
+  -webkit-overflow-scrolling: touch
+
+=placeholder
+  $placeholders: ':-moz' ':-webkit-input' '-moz' '-ms-input'
+  @each $placeholder in $placeholders
+    &:#{$placeholder}-placeholder
+      @content
+
+=unselectable
+  -webkit-touch-callout: none
+  -webkit-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none

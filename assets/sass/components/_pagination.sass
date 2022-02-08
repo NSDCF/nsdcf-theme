@@ -1,0 +1,36 @@
+.pagination
+  grid-column: 1/-1
+  text-align: center
+
+.pagination__list
+  //font-family: $font-sans-serif
+  list-style: none
+  margin: 0
+  padding: 0
+
+.pagination__item
+  display: inline-block
+
+  &.active
+    //
+  // &--previous
+  //   margin-right: var(--space-2xs)
+  // &--next
+  //   margin-left: var(--space-2xs)
+
+.pagination__link
+  color: var(--tertiary)
+  padding: var(--space-3xs)
+  text-decoration: none
+  font-style: normal
+  //font-variant-numeric: normal
+  padding: var(--space-3xs) var(--space-3xs)
+
+  &:hover
+    color: var(--primary--lightest)
+
+  .pagination__item--active &,
+  &--ellipse
+    color: var(--primary--lightest)
+    &:hover
+      color: var(--primary--lightest)

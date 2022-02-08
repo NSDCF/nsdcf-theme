@@ -1,0 +1,21 @@
+{{- $dot := . -}}
+{{ range .Params.members }}
+  <article class="card card--board">
+    {{ $resourceName := (print (replace .name "." "") ".jpg" | urlize) }}
+    {{ if $dot.Resources.GetMatch $resourceName }}
+      {{- partial "responsive-image" (dict "img" (print $resourceName) "class" "card--board" "alt" .name "dot" $dot) -}}
+    {{ else }}
+      {{ partial "responsive-image-placeholder" (dict "class" "card--board") }}
+    {{ end }}
+    <header class="card__meta">
+      <h4 class="card__title">{{with .honorific}}{{.}} {{end}}{{ .name }}{{with .title}}, {{.}}{{end}}</h4>
+      <h6 class="card__subheading">
+      {{ with .positions }}
+        {{ range . }}
+          <span class="card__subheading_span">{{.}}<br /></span>
+        {{ end }}
+      {{ end }}
+      </h6>
+    </header>
+  </article>
+{{ end }}

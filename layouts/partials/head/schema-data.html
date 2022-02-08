@@ -1,0 +1,273 @@
+{{- .Scratch.Set "sameAs" (slice (print $.Site.Social.facebook) (print "https://twitter.com/" $.Site.Social.twitter) (print $.Site.Social.youtube)) -}}
+{{- .Scratch.Set "sameAsAlumni" (slice (print $.Site.Social.alumni_facebook) (print "https://twitter.com/" $.Site.Social.alumni_twitter)) -}}
+
+{{/* Use feature image Resource for Webpage type, common to all  */}}
+{{- $images := .Resources.ByType "image" -}}
+{{- $featured := $images.GetMatch "*feature*" -}}
+{{- $featured := cond (ne $featured nil) $featured ($images.GetMatch "{*cover*,*thumbnail*}") -}}
+
+{{/* Used for building current breadcrumb ListItem */}}
+{{- $title := .Title -}}
+{{- $kind := .Kind -}}
+{{- $section := .Section -}}
+{{- $url := replace .Permalink ( printf "%s" .Site.BaseURL) "" -}}
+{{- $urlSegments := split $url "/" -}}
+{{- $urlDates := findRE "(\\d{4}|\\d{2})" $url 2 -}}
+{{- $.Scratch.Add "path" .Site.BaseURL -}}
+{{- $.Scratch.Add "breadcrumbs" (slice (dict "url" .Site.BaseURL "name" "home" "position" 1 )) -}}
+
+{{/* Counter starts at 2 as home is already in breadcrumb as 1 */}}
+{{ $.Scratch.Set "counter" 2}}
+{{- range $urlSegments }}
+  {{- $.Scratch.Add "path" . -}}
+  {{- $.Scratch.Add "path" "/" -}}
+  {{- $counter := $.Scratch.Get "counter" -}}
+
+  {{/* Unwieldy workaround for lack of loop controls in Go templating. Adds each URL segment to breadcrumbs map if . != "" while skipping /yyyy/ & /mm/ segments on news single pages. Iterates $counter instead of using $i given that some segments may be skipped. */}}
+  {{- if and (ne . "") (not (and (and (eq $section "news") (eq $kind "page")) (in $urlDates .))) }}
+    {{- $.Scratch.Add "counter" 1 -}}
+    {{- $.Scratch.Add "breadcrumbs" (slice (dict "url" ($.Scratch.Get "path") "name" . "position" $counter)) -}}
+  {{ end -}}
+{{ end -}}
+{{ $len := len ($.Scratch.Get "breadcrumbs") }}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph":
+  [
+    {{/* Main Organization schema for site. Output only on Home.  */}}
+    {{- if .IsHome -}}
+      {
+        "@type": "Organization",
+        "additionalType": "https://en.wikipedia.org/wiki/Charitable_organization",
+        "@id": {{ print .Site.BaseURL "#organization" }},
+        "name": {{ .Site.Params.title }},
+        "alternateName": {{ .Site.Params.shortTitle }},
+        "url": {{ .Site.BaseURL }},
+        "sameAs": [
+          {{ range $i, $e := $.Scratch.Get "sameAs" -}}
+            {{ if $i -}}, {{ end }}{{ . }}
+          {{ end -}}
+        ],
+        {{ with $.Site.Params.logo }}"logo": {{ absURL . }},{{ end}}
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": {{ $.Site.Params.contact.street }},
+          "addressLocality": {{ $.Site.Params.contact.city }},
+          "addressRegion": {{ $.Site.Params.contact.state }},
+          "postalCode": {{ $.Site.Params.contact.postal }},
+          "addressCountry": {{ $.Site.Params.contact.country }}
+        },
+        "email": {{ $.Site.Params.contact.email }},
+        {{- with $.Site.Params.contact.fax }}"faxNumber": {{.}},{{end}}
+        "telephone": {{ $.Site.Params.contact.phone }},
+        "department": [
+          {
+            "@type": "Organization",
+            "@id": {{ print .Site.Params.alumni.schemaURL "#organization" }},
+            "name": {{print "\"" | safeJS }}{{ safeJS .Site.Params.alumni.title }}{{print "\"" | safeJS }},
+            "alternateName": {{ .Site.Params.alumni.shortTitle }},
+            "url": {{ absURL .Site.Params.alumni.url }},
+            "sameAs": [
+              {{ range $i, $e := $.Scratch.Get "sameAsAlumni" -}}
+                {{ if $i -}}, {{ end }}{{ . }}
+              {{ end -}}
+            ],
+            {{ with $.Site.Params.alumni.logo }}"logo": {{ absURL . }},{{ end}}
+            "email": {{ $.Site.Params.contact.alumniEmail }}
+          }
+        ]
+      },
+    {{- end -}}
+
+    {{/* Global */}}
+    {
+      "@type": "WebSite",
+      "@id": {{ print .Site.BaseURL "#website" }},
+      "url": {{ .Site.BaseURL }},
+      "name": {{ .Site.Params.title }},
+      "copyrightHolder": {
+        "@id": {{ print .Site.BaseURL "#organization" }}
+      }
+    }
+
+    {{/* Page - common to all Page types */}}
+    ,{
+      "@type": "WebPage",
+      "@id": {{ print .Site.BaseURL "#webpage" }},
+      "url": {{ .Permalink }},
+      "name": {{print "\"" | safeJS }}{{ .Title | humanize | title | safeJS }}{{print "\"" | safeJS }},
+      "inLanguage": {{ .Site.LanguageCode }},
+      "isPartOf": {
+        "@id": {{ print .Site.BaseURL "#website" }}
+      },
+      "breadcrumb": {
+        "@id": {{ print .Permalink "#breadcrumb"}}
+      },
+      "copyrightYear": {{ .Date.Format "2006" }},
+      {{ with .PublishDate }}"datePublished": {{ .Format $.Site.Params.ISO8601 }},{{ end }}
+      {{ if not .Lastmod.IsZero }}"dateModified": {{ .Lastmod.Format $.Site.Params.ISO8601 }},{{ end }}
+      {{- $permalink := print .Permalink (cond (and .IsPage (eq $section "news")) "#blogpost" "#webpage") -}}{{- with .Params.videos }}
+        "videos": [
+          {{- range $i, $e := . }}
+            {{ if ne $i 0 }},{{end}} {
+              "@type": "VideoObject",
+              "about": {{ print $permalink }},
+              "author": {{ print $.Site.BaseURL "#organization" }},
+              {{- with .caption }}"caption": {{.}},{{ end }}
+              {{ with .description }}"description": {{.}},{{ end }}
+              {{ with .duration }}"duration": {{ print (cond (hasPrefix . "T") . (print "T" .)) | upper}},{{ end}}
+              {{ with .uploadDate }}"uploadDate": {{ .Format $.Site.Params.ISO8601 }},{{ end }}
+              {{ with .url }}"contentUrl": {{.}},{{ end }}
+              {{ if .youtubeId -}}"embedUrl": "https://www.youtube.com/embed/{{ print .youtubeId}}",{{ else if .embedUrl }}"embedUrl": {{.embedUrl}},{{ end }}
+              {{ with .name }}"name": {{.}},{{ end }}
+              {{ if .youtubeId }}"thumbnailUrl": "http://i3.ytimg.com/vi/{{ print .youtubeId}}/maxresdefault.jpg"{{ else if .thumbnailUrl }}"thumbnailUrl": {{.thumbnailUrl}}{{ end }}
+            }
+          {{ end -}}
+        ],
+      {{ end -}}
+      {{ with $featured -}}
+        "image": {
+          "@type": "ImageObject",
+          "url": {{ $featured.Permalink }},
+          "width": {{ $featured.Width }},
+          "height": {{ $featured.Height }}
+        }
+      {{ end -}}
+    }
+
+    {{/* Event */}}
+    {{- if eq .Type "event" -}}
+      ,{
+        "@type": "Event",
+        {{ with .Title }}"name": {{ . }},{{ end }}
+        {{ with .Params.organizer }}"organizer": {{print "\"" | safeJS }}{{. | safeJS }}{{print "\"" | safeJS }},{{ end }}
+        {{- with $featured }}
+          "image": {
+            "@type": "ImageObject",
+            "url": {{ $featured.Permalink }},
+            "width": {{ $featured.Width }},
+            "height": {{ $featured.Height }}
+          },
+        {{ end -}}
+        "url": {{ .Permalink }},
+        {{ with .Description }}"description": {{.}},{{ end }}
+        {{ with .Params.eventDate }}"startDate": {{ dateFormat . $.Site.Params.ISO8601 }},{{ end }}
+        {{ with .Params.eventDoorTime }}"doorTime": {{ dateFormat . $.Site.Params.ISO8601 }},{{ end }}
+        {{ with .Params.eventEndDate }}"endDate": {{ dateFormat . $.Site.Params.ISO8601 }},{{ end }}
+        "eventAttendanceMode": {{with .Params.eventAttendanceMode}}{{.}}{{else}}"OfflineEventAttendanceMode"{{end}},
+        "eventStatus": {{with .Params.eventStatus}}{{.}}{{else}}"EventScheduled"{{end}}
+        {{- if .Params.sections.venue -}}
+          {{- range .Params.sections.venue -}}
+            ,"location": {
+              "@type": "Place",
+              "address": {
+                {{ with .city }}"addressLocality": {{.}},{{ end }}
+                {{ with .state }}"addressRegion": {{.}},{{ end }}
+                {{ with .postal }}"postalCode": {{.}},{{ end }}
+                {{ with .street }}"streetAddress": {{.}}{{ end }}
+              },
+              {{ with .url }}"url": {{.}},{{ end }}
+              {{ with .name }}"name": {{.}}{{ end }}
+            }
+          {{- end -}}
+        {{- end -}}
+        {{- if .Params.ticketsAvailable -}}
+          {{- range .Params.ticketOptions -}}
+            ,"offers": [
+              {
+                "@type": "Offer",
+                "name": {{.name}},
+                {{ with .description }}"description": {{.}},{{ end }}
+                "price": {{.price}},
+                "url": {{$.Permalink}}
+              }
+            ]
+          {{- end -}}
+        {{- end -}}
+      }
+    {{- end -}}
+
+    {{/* CollectionPage for taxonomy pages & section listings */}}
+    {{- if .IsSection }}
+    ,{
+        "@type": "CollectionPage",
+        "@id": {{ print .Permalink "#collection"}},
+        "isPartOf": {{ print .Site.BaseURL "#webpage" }},
+        "name": {{print "\"" | safeJS }}{{ .Title | humanize | title | safeJS }}{{print "\"" | safeJS }},
+        "mainEntity": {
+          "@type":"ItemList",
+          "itemListElement": [
+            {{ range $i, $e := first 10 .Pages }}
+              {{if $i}},{{end}}{
+                "@type": {{ if eq $section "news" }}"BlogPosting"{{else}}"Article"{{end}},
+                "name": {{ .Title | title }},
+                {{with .Description}}"description": {{.}},{{end}}
+                "url": {{ if eq $section "news" }}{{ print .Permalink "#blogpost"}}{{else}}{{ print .Permalink "#article"}}{{end}}
+                {{ with .Params.author }},"author": {
+                  "@id": {{ print $.Site.BaseURL "news/authors/" (. | urlize) "#author" | safeHTML }}
+                }{{end}}
+              }
+            {{ end }}
+          ]
+        }
+      }
+    {{ end -}}
+
+    {{/* News section page */}}
+    {{- if and .IsPage (eq $section "news") }}
+    ,{
+      "@type": "BlogPost",
+      "@id": {{ print .Permalink "#blogpost"}},
+      "isPartOf": [
+        {
+          "@id": {{ print .Site.BaseURL "#webpage" }}
+        }
+        {{- if isset .Params "news/series" -}}
+          ,
+          {{- $siteSeries := (index .Site.Taxonomies "news/series") -}}
+          {{- range $i, $series := (index .Params "news/series") -}}
+            {{- $link := (printf "/%s/%s/" "news/series/" (. | urlize) | absURL) }}
+            {{ if ne $i 0 }},{{end}} {
+              "@id": {{ print $link "#collection" }}
+            }
+          {{- end -}}
+        {{- end -}}
+      ],
+      "headline": {{print "\"" | safeJS }}{{ .Title | humanize | title | safeJS }}{{print "\"" | safeJS }},
+      "mainEntityOfPage": {{ print .Permalink "#webpage" }},
+      "publisher": {
+        "@id": {{ print .Site.BaseURL "#organization" }}
+      },
+      {{- with .Params.categories }}
+        "keywords": "{{- range $i, $e := . }}
+          {{- if ne $i 0 }},{{ end }}{{- . | humanize | title -}}
+          {{ end -}}",
+      {{end -}}
+      "articleSection": {{ $section }}
+    }
+    {{- end -}}
+
+    {{/* Breadcrumbs */}}
+    ,{
+      "@type": "BreadcrumbList",
+      "@id": {{ print .Permalink "#breadcrumb"}},
+      "itemListElement": [
+        {{- range $i, $e := $.Scratch.Get "breadcrumbs" }}
+          {
+            "@type": "ListItem",
+            "position": {{.position}},
+            "item": {
+              "name": "name",
+              "@id": {{ .url }}
+            }
+          }{{- if ne (add $i 1) $len -}},{{- end -}}
+        {{- end -}}
+      ]
+    }
+
+
+  ]
+}
+</script>

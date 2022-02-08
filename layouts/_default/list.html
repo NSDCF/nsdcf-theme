@@ -1,0 +1,37 @@
+{{ define "main" }}
+  {{- $images := .Resources.ByType "image" -}}
+  {{- $featured := $images.GetMatch "*feature*" -}}
+  {{- $featured := cond (ne $featured nil) $featured ($images.GetMatch "{*cover*,*thumbnail*}") -}}
+  {{- $featured := $featured.Fill "1600x720" -}}
+
+  <article class="content-grid">
+    <header class="mast mast--section{{ with $featured}} mast--section-has-image{{end}} grid">
+      <h1 class="mast__title">{{ .Title }}</h1>
+      {{ with $featured -}}
+        <figure class="mast__fig">
+          <img src="{{ $featured.Permalink }}" class="mast__img"/>
+        </figure>
+      {{- end -}}
+    </header>
+    <div class="content grid">{{ .Content }}</div>
+  </article>
+
+  <section class="grid">
+    <div class="cards cards--section grid">
+      {{ range where .Pages.ByWeight "Params.exclude" "ne" "true" }}
+        <article class="card">
+          {{ if and (.Resources.GetMatch "*featured*") (.Params.showImage) }}
+            {{ partial "responsive-image" (dict "img" "*featured*" "class" "card" "dot" .) }}
+          {{ end }}
+
+          <h3 class="card__title">
+            <a href="{{ .Permalink }}" class="card__link">{{ .Title }}</a>
+          </h3>
+          {{ if not .Params.noSummary }}
+            <div class="listing__summary">{{ .Summary }}</div>
+          {{ end }}
+        </article>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

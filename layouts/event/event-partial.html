@@ -1,0 +1,245 @@
+<article>
+  {{ $mast_img := .Resources.GetMatch "featured" }}
+
+  <header class="mast mast--cover mast--dinner"
+          style="background:linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,.1)), url({{ $mast_img.RelPermalink }}) center center / cover no-repeat;">
+
+    <div class="mast__content">
+      <h1 class="mast__title">{{ .Title }}</h1>
+
+      {{ with .Params.eventDate }}
+        <h3 class="mast__subtitle">
+          <time class="mast__time" datetime="{{.}}">{{ dateFormat "Monday, Jan 2, 2006" (.) }}</time>
+        </h3>
+      {{ end }}
+    </div>
+  </header>
+
+  <!-- 1. introduction -->
+  <section class="kda-slide kda-slide--intro grid">
+    <div class="kda-slide__intro">
+      {{ .Content }}
+    </div>
+  </section>
+
+  <!-- 2. info -->
+  {{ if not .Params.eventComplete }}
+    <section class="kda-slide kda-slide--info grid">
+    <div class="kda-info">
+      <!-- schedule -->
+      <div class="kda-info-item">
+        {{ if and .Params.sections.schedule (not .Params.eventComplete) }}
+          <h3 class="schedule__h3">{{ .Params.sections.schedule_intro.title }}</h3>
+
+          {{ range .Params.sections.schedule }}
+            <div class="schedule-item">
+              <time class="schedule-item__time">
+                {{ if .time }}
+                  <time datetime="{{ .time }}">{{ dateFormat "3:04pm" .time }}</time>
+                {{ else if .content }}
+                  {{ .content }}
+                {{ end }}
+              </time>
+              <span class="schedule-item__heading">{{.title}}</span>
+            </div>
+          {{ end }}
+        {{ end }}
+
+        <!-- credits / support + misc text -->
+        {{ if and .Params.sections.credits (not .Params.eventComplete) }}
+          <h3 class="schedule__h3">{{ .Params.sections.creditsIntro.title }}</h3>
+          {{ range .Params.sections.credits }}
+            <div class="schedule-item">
+              <span class="schedule-item__time">{{.role}}</span>
+              <span class="schedule-item__heading">{{.name}}</span>
+            </div>
+          {{ end }}
+
+          {{ range .Params.sections.misc }}
+            <div class="schedule-item">
+              <span class="schedule-item__time">{{.title}}</span>
+              <span class="schedule-item__heading">{{ .content | markdownify }}</span>
+            </div>
+          {{ end }}
+        {{ end }}
+      </div>
+
+      <!-- venue / map -->
+      <div class="kda-info-item kda-info-item--map">
+        {{ if and .Params.sections.venue (not .Params.eventComplete) }}
+          {{ range .Params.sections.venue }}
+            <figure class="map map--kda" >
+              <div class="map__map">
+                <img src="https://api.mapbox.com/v4/mapbox.light/pin-l-marker+285A98(-79.7579505,40.3382371)/-79.7579505,40.3382371,15/640x640@2x.png?access_token=pk.eyJ1IjoibnNkY2YiLCJhIjoiY2p0eXBucTBmMThiYjQzcnp1M2IzNWV5MCJ9.qtvXxq33rsgsDbGhiN7HxQ" class="map__img" />
+              </div>
+
+              <h3 class="map__heading">{{ .title }}</h3>
+
+              <address class="map__address">
+                <span>{{ .name }}</span><br />
+                <span>{{ .street }}</span><br />
+                <span>{{ .city }}</span>,
+                <span>{{ .state }}</span>
+                <span>{{ .postal }}</span>
+              </address>
+            </figure>
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  </section>
+  {{ end }}
+
+  <!-- 2. Recipients -->
+  {{ if .Params.sections.recipientsIntro }}
+    <section class="kda-slide kda-slide--recipients {{ if .Params.eventComplete }}kda-slide--recipients-complete{{end}} grid">
+      {{ range .Params.sections.recipientsIntro }}
+        <header class="slide__header slide__header--recipients">
+          <h3 class="slide__heading">{{ .title }}</h3>
+          <p>{{ .content }}</p>
+        </header>
+      {{ end }}
+
+      {{ range $i, $e := .Resources.Match "recipients/*.md" }}
+        <article class="media media--alumni_recipients">
+          {{ if $e.Params.photo }}
+            <img src="{{ $e.Params.photo }}" class="media__figure" />
+          {{ end }}
+
+          <header class="media__body">
+            <h4 class="media__heading">{{ $e.Params.salutation }} {{ $e.Title | markdownify }}</h4>
+            <small class="media__small">
+              {{ if and (eq $e.Params.award "Scholarship") $e.Params.subtitle }}
+                {{$e.Params.subtitle}}
+              {{ else if eq $e.Params.award "Scholarship" }}
+                NAFA Scholarship Recipient, {{ $e.Params.class }}
+              {{ else if (eq $e.Params.award "Friend") }}
+                Distinguished Friend of Norwin
+              {{ else if $e.Params.class }}
+                Class of '{{ slicestr $e.Params.class 2 }}
+              {{ end }}
+            </small>
+          </header>
+        </article>
+      {{ end }}
+
+    </section>
+  {{ end }}
+
+  <!-- 3. Reservations -->
+  {{ if not .Params.eventComplete }}
+    <section class="kda-slide kda-slide--reservations grid" id="reservations">
+      <header class="slide__header slide__header--reservations">
+
+      {{ $reservations := .Resources.GetMatch "reservations.md" }}
+      {{ if $reservations }}
+        <h3 class="slide__heading">{{ $reservations.Title }}</h3>
+        {{ if .Params.ticketsAvailable }}
+          {{ $reservations.Content }}
+        {{ else }}
+          <p>Reservations are not currently being accepted.</p>
+        {{ end }}
+
+        {{ if .Params.ticketsAvailable }}
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="form form--dinner-reservations">
+            <!-- paypal variables (hidden) -->
+            {{ partial "paypal-form-variables.html" (dict "email" "alumni.dinner@nsdcf.org") }}
+            <input type="hidden" name="item_name" value="{{ dateFormat "2006" .Params.eventDate }} Knight of Distinguished Alumni Ticket">
+            <input type="hidden" name="amount" value="{{ .Params.tickets.price }}">
+
+            <!-- form inputs -->
+            <div class="form__field">
+              <label class="form__label" for="quantity">Number of Tickets</label>
+              <input class="form__input form__input--required" type="text" spellcheck="false"  name="quantity" placeholder="Number of Tickets" required>
+            </div>
+
+            <div class="form__field">
+              <label class="form__label" for="os0">Guest Name(s)</label>
+              <small class="form__description">Please list each guest name, including your own, on a separate line.</small>
+              <input type="hidden" name="on0" value="Guest Names">
+              <textarea class="form__textarea" name="os0" rows="4" placeholder="Guest names, one per line" required wrap></textarea>
+            </div>
+
+            <div class="form__field">
+              <input type="hidden" name="on1" value="Business Reservation">
+              <div class="checkbox">
+                <input type="checkbox" class="checkbox__input" id="checkbox--business-reservation" name="os1">
+                <label class="checkbox__label" for="checkbox--business-reservation"><span class="checkbox__span">This is a business reservation.</span></label>
+              </div>
+            </div>
+
+            <div class="business-reservation">
+              <small class="form__description form__description--business-reservation">Please enter the business name.</small>
+
+              <input type="hidden" name="on2" value="Business Name">
+              <input type="text" class="form__input form__input--business-reservation" name="os2" spellcheck="false" placeholder="Business name">
+            </div>
+
+            <button class="form__button button--svg button--paypal" type="submit">
+              <span class="button__label--svg">Pay with</span>
+              {{ partial "svg/paypal.svg" (dict "class" "button__icon button__icon--paypal") }}
+            </button>
+          </form>
+        {{ end }}
+      {{ end }}
+
+      {{ $adverts := .Resources.GetMatch "advertise.md" }}
+      {{ with $adverts }}
+        <h3 class="slide__heading">{{ .Title }}</h3>
+        {{ .Content }}
+      {{ end }}
+
+      </header>
+    </section>
+  {{ end }}
+
+  <!-- 4. Sponsors -->
+  {{ if isset .Params "sponsors" }}
+    <section class="content content-grid kda-sponsors" id="sponsors">
+      <header class="content-grid__side_intro kda-sponsors__intro">
+        {{ range .Params.sections.sponsors }}
+            <h3 class="side-intro__heading kda-sponsors__intro-heading">{{ .title }}</h3>
+            {{with .content }}<p class="kda-sponsors__intro_p">{{ . }}</p>{{end}}
+        {{ end }}
+      </header>
+
+      <ul class="kda-sponsors__list">
+        <li class="kda-sponsors-list__item kda-sponsors-list__item--main">
+          {{ $eventSponsor := .Resources.GetMatch "sponsor" }}
+          {{ if $eventSponsor }}
+            <div class="kda-event-sponsor">
+              <a href="{{$eventSponsor.Params.url}}" title="{{$eventSponsor.Params.title}}"><img src="{{$eventSponsor.RelPermalink}}" target="_blank"/></a>
+            </div>
+          {{ end }}
+        </li>
+        {{ range .Params.sponsors }}
+          <li class="kda-sponsors-list__item">{{.}}</li>
+        {{ end }}
+      </ul>
+    </section>
+  {{ end }}
+
+</article>
+
+<!-- 5. Pagination -->
+<nav class="content kda-pagination">
+  {{ with .PrevInSection }}
+    {{ if eq .Type "event" }}
+      <a href="{{.Permalink}}" class="kda-pagination-item kda-pagination-item--prev">
+        <h3 class="kda-pagination-item__heading">{{.Title}}{{if .Params.eventComplete }} Recap{{ end }}</h3>
+        {{ with .Params.eventDate }}
+          <time class="kda-pagination-item__year kda-pagination-item__year--prev">{{ dateFormat "2006" (.) }}</time>
+        {{ end }}
+      </a>
+    {{end}}
+  {{ end }}
+
+  {{ with .NextInSection }}
+    <a href="{{.Permalink}}" class="kda-pagination-item kda-pagination-item--next">
+      <h3 class="kda-pagination-item__heading">{{.Title}}{{if .Params.eventComplete }} Recap{{ end }}</h3>
+      {{ with .Params.eventDate }}
+        <time class="kda-pagination-item__year kda-pagination-item__year--next">{{ dateFormat "2006" (.) }}</time>
+      {{ end }}
+    </a>
+  {{ end }}
+</nav>
