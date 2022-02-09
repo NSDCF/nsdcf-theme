@@ -16,15 +16,31 @@
     <div class="content grid">{{ .Content }}</div>
   </article>
 
-  <section class="grid">
-    {{ with .Site.GetPage "story/board" }}
-      <div class="board-members grid">
-        <h2 class="board__heading">{{ .Title | title }}</h2>
-        {{.Content}}
-        <div class="cards">
-          {{ partial "board-members" . }}
-        </div>
-      </div>
+  <section class="board-members grid">
+    {{ with .Site.GetPage "board" }}
+      <h2 class="board__heading">{{ .Title | title }}</h2>
+      {{.Content}}
     {{ end }}
+    <div class="cards">
+      {{- range where .Pages.ByWeight "Params.exclude" "ne" "true" -}}
+        <article class="card card--board">
+          {{ if .Resources.GetMatch "*headshot*" }}
+            {{- partial "responsive-image" (dict "img" "*headshot*" "class" "card--board" "alt" .Title "dot" .) -}}
+          {{ else }}
+            {{ partial "responsive-image-placeholder" (dict "class" "card--board") }}
+          {{ end }}
+          <header class="card__meta">
+            <h4 class="card__title">{{with .Params.honorific}}{{.}} {{end}}{{ .Title }}</h4>
+            <h6 class="card__subheading">
+            {{ with .Params.positions }}
+              {{ range . }}
+                <span class="card__subheading_span">{{.}}<br /></span>
+              {{ end }}
+            {{ end }}
+            </h6>
+          </header>
+        </article>
+      {{- end -}}
+    </div>
   </section>
 {{ end }}
