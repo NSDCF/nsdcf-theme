@@ -2,17 +2,17 @@
   {{- $images := .Resources.ByType "image" -}}
   {{- $featured := $images.GetMatch "*feature*" -}}
   {{- $featured := cond (ne $featured nil) $featured ($images.GetMatch "{*cover*,*thumbnail*}") -}}
-  {{- $featured := $featured.Fill "1200x900" -}}
+  {{- $featured := $featured.Fill "1600x720" -}}
 
-  <article class="single grid wrapper">
-    <header class="mast grid sub-grid">
-      <h1 class="mast__title{{ with $featured }} mast__title--with-thumb{{end}}">{{ .Title }}</h1>
+  <article class="content-grid">
+    <header class="mast mast--section{{ with $featured}} mast--section-has-image{{end}} grid">
+      <h1 class="mast__title">{{ .Title }}</h1>
       {{ with $featured -}}
-        <figure class="mast__thumb">
-          <img src="{{ $featured.Permalink }}" class="mast__thumb_img"/>
+        <figure class="mast__fig">
+          <img src="{{ $featured.Permalink }}" class="mast__img"/>
         </figure>
       {{- end -}}
     </header>
-    {{.Content}}
+    <div class="content grid">{{ .Content }}</div>
   </article>
 {{ end }}

@@ -21,6 +21,7 @@
       <h2 class="board__heading">{{ .Title | title }}</h2>
       {{.Content}}
     {{ end }}
+
     <div class="cards">
       {{- range where .Pages.ByWeight "Params.exclude" "ne" "true" -}}
         <article class="card card--board">
