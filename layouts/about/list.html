@@ -16,7 +16,7 @@
     <div class="content grid">{{ .Content }}</div>
   </article>
 
-  <section class="board-members grid">
+  <section class="board-members board-members--alt grid">
     {{ with .Site.GetPage "board" }}
       <h2 class="board__heading">{{ .Title | title }}</h2>
       {{.Content}}

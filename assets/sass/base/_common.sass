@@ -43,6 +43,8 @@ img
 
 .content > .intro_p
   font-size: var(--step-1)
+  +respond("desktop")
+    grid-column: main-start / span 5
 
   &--with-thumb
     align-self: end

@@ -2,6 +2,14 @@
   grid-column: full-gutter-start / main-end
   padding-top: var(--space-xl)
 
+  > p
+    +respond("desktop")
+      grid-column: main-start / span 5
+
+.board-members--alt
+  background: var(--secondary-lightest)
+  margin-top: var(--space-xl)
+
 .card--board
   //grid-area: auto / one / auto / one
 
