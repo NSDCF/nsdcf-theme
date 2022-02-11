@@ -1,0 +1,24 @@
+.join-form
+  margin-top: var(--space-s)
+  +respond("desktop")
+    grid-column: col 2 / col 5
+
+  .form__fieldset
+    margin-top: 0
+
+  .form__label
+    margin: var(--space-2xs) 0
+
+  .form__input,
+  .form__select
+    background: var(--secondary-lightest)
+    width: 100%
+    margin: 0
+    &:focus
+      background: var(--secondary-light)
+      border-color: var(--secondary-darker)
+
+  .button--paypal
+    +respond("desktop")
+      width: 100%
+      margin-top: var(--space-xs)
