@@ -1,5 +1,5 @@
 .nav-overlay
-  background: var(--primary) url("/images/knight_cropped.svg") top center / cover no-repeat
+  background: var(--secondary)
   height: 100vh
   width: 100vw
   //padding: var(--space-s)
@@ -12,6 +12,18 @@
   z-index: var(--layer-nav)
   display: flex
   align-items: center
+
+  &::before
+    content: ""
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: transparent url("../images/knight-cropped.svg") no-repeat left top
+    background-size: 60em
+    filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(107deg) brightness(102%) contrast(103%)
+    z-index: var(--layer-nav-bg)
 
   +respond("tablet-landscape")
     background-position: bottom left
@@ -35,6 +47,7 @@
   padding: 0
   text-align: center
   width: 100%
+  z-index: var(--layer-nav-contents)
 
   +respond("tablet-landscape")
     text-align: left
@@ -46,7 +59,7 @@
   padding: var(--space-3xs) var(--space-2xs)
 
 .nav__link
-  color: var(--secondary-lightest)
+  color: var(--primary)
   text-decoration: none
   font-style: normal
   font-size: var(--step-2)
@@ -58,7 +71,7 @@
 
   &:hover,
   &--active:hover
-    color: var(--accent)
+    color: var(--tertiary)
 
   &--active
-    color: var(--accent-light)
+    color: var(--tertiary)
