@@ -4,8 +4,8 @@
   {{- $featured := cond (ne $featured nil) $featured ($images.GetMatch "{*cover*,*thumbnail*}") -}}
   {{- $featured := $featured.Fill "1600x720" -}}
 
-  <article class="content-grid">
-    <header class="mast mast--section{{ with $featured}} mast--section-has-image{{end}} grid">
+  <article class="grid">
+    <header class="mast mast--section{{ with $featured}} mast--section-has-image{{end}} sub-grid">
       <h1 class="mast__title">{{ .Title }}</h1>
       {{ with $featured -}}
         <figure class="mast__fig">
@@ -13,6 +13,120 @@
         </figure>
       {{- end -}}
     </header>
-    <div class="content grid">{{ .Content }}</div>
+
+    <section class="content sub-grid">{{ .Content }}</section>
+
+    <section class="event-details sub-grid">
+      <span class="event-details__bg-text">{{.Params.shortTitle}}</span>
+        <div class="event-details__item event-details__item--date">
+          <span class="event-details__date"><span class="event-details__day">{{ .Params.eventDate | time.Format "Monday" }} </span>{{ .Params.eventDate | time.Format "Jan 2" }}</span>
+        </div>
+
+        <div class="event-details__wrapper">
+          {{- with .Params.venue -}}
+            <div class="event-details__item event-details__item--location">
+              {{ with .name }}<span class="event-details__info event-details__info--name">{{.}}</span>{{ end }}
+              {{ with .street }}<span class="event-details__info">{{.}}</span>{{ end }}
+              <span class="event-details__info">{{with .city}}{{.}}{{end}}, {{with .state}}{{.}}{{end}} {{with .postal}}{{.}}{{end}}</span>
+            </div>
+          {{- end -}}
+
+          {{ with .Params.sections.schedule }}
+            <div class="event-details__item event-details__item--schedule">
+              <ul class="event-details__schedule">
+                {{- range . -}}
+                  <li class="event-details__schedule-li">
+                    <dl class="schedule__dl">{{.title}}</dl>
+                    {{- if .time -}}
+                      <dt class="schedule__dt"><time datetime="{{ .time }}">{{ .time | time.Format ":time_short" }}</time></dt>
+                    {{- else -}}
+                      <dt class="schedule__dt">{{ .content }}</dt>
+                    {{- end -}}
+                  </li>
+                {{- end -}}
+              </ul>
+            </div>
+          {{ end }}
+        </div>
+    </section>
+
+    {{- if .Params.HasRecipients -}}
+      <section class="event-recipients sub-grid">
+        {{with .Params.recipientsHeading}}<h2 class="event-recipients__heading">{{.}}</h2>{{end}}
+        {{with .Params.recipientsIntro}}<p class="event-recipients__p">{{.}}</p>{{end}}
+
+        {{ $recipients := where .Site.RegularPages "Section" "distinguished-alumni-recipients" }}
+        {{ $recipients := $recipients | intersect (where .Site.RegularPages "Params.class" .Params.class )}}
+
+        <div class="cards cards--recipients">
+          {{ range sort $recipients ".File.BaseFileName" "asc" }}
+            <article class="card card--board">
+              {{ if .Resources.GetMatch "*headshot*" }}
+                {{- partial "responsive-image" (dict "img" "*headshot*" "class" "card--board" "alt" .Title "dot" .) -}}
+              {{ end }}
+              <header class="card__meta">
+                <h5 class="card__title">{{with .Params.honorific}}{{.}} {{end}}{{ .Title }}{{with .Params.year}},&nbsp;&lsquo;<i>{{ slicestr . 2 }}</i>{{end}}</h5>
+                <h6 class="card__subheading">
+                  {{ if eq .Params.award "Friend" }}
+                    <span class="card__subheading_span">Friend of Norwin{{ if .Params.posthumous  }}&nbsp;<em>(Posthumous)</em>{{ end }}</span>
+                  {{ else if eq .Params.award "Scholarship" }}
+                    <span class="card__subheading_span">{{.Class}} NAFA Scholarship Recipient</span>
+                  {{ else }}
+                    <span class="card__subheading_span">{{.Params.category}}{{ if .Params.posthumous  }}&nbsp;<em>(Posthumous)</em>{{ end }}</span>
+                  {{ end}}
+
+                </h6>
+              </header>
+            </article>
+          {{ end }}
+        </div>
+      </section>
+    {{- end -}}
+
+    {{ if .Params.ticketsAvailable }}
+      <section class="reservations sub-grid" id="reservations">
+        {{with .Params.reservationsHeading}}<h2 class="reservations__heading">{{.}}</h2>{{end}}
+        {{with .Params.reservationsIntro}}<p class="reservations__p">{{.}}</p>{{end}}
+        {{with .Params.reservationsMisc}}<p class="reservations__p">{{. | safeHTML }}</p>{{end}}
+      </end>
+
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="form reservations-form">
+        <!-- paypal variables (hidden) -->
+        {{ partial "paypal-form-variables.html" (dict "email" "alumni.dinner@nsdcf.org") }}
+        <input type="hidden" name="item_name" value="{{ dateFormat "2006" .Params.eventDate }} Knight of Distinguished Alumni Ticket">
+        <input type="hidden" name="amount" value="{{ .Params.tickets.price }}">
+
+        <!-- form inputs -->
+        <div class="form__field">
+          <label class="form__label" for="quantity">Number of Guests</label>
+          <input class="form__input form__input--required" type="number" min="1" max="100" spellcheck="false"  name="quantity" placeholder="Number of Guests" required>
+        </div>
+
+        <div class="form__field">
+          <label class="form__label" for="quantity">Name of Honoree</label>
+          <small class="form__description">Please enter the name of the honoree you are attending in support of for seating purposes.</small>
+          <input type="hidden" name="on1" value="Honoree">
+          <input type="text" class="form__input form__input--business-reservation" name="os1" spellcheck="false" placeholder="Name of Honoree">
+        </div>
+
+        <div class="form__field">
+          <label class="form__label" for="os0">Guest Name(s)</label>
+          <small class="form__description">Please list each guest name, including your own, on a separate line.</small>
+          <input type="hidden" name="on0" value="Guest Names">
+          <textarea class="form__textarea" name="os0" rows="4" placeholder="Guest names, one per line" required wrap></textarea>
+        </div>
+
+        <button class="form__button button--svg button--paypal" type="submit">
+          <span class="button__label--svg">Pay with</span>
+          {{ partial "svg/paypal.svg" (dict "class" "button__icon button__icon--paypal") }}
+        </button>
+
+        {{with .Params.reservationsSmallPrint}}<p class="reservations__small-print">{{.}}</p>{{end}}
+
+      </form>
+    {{- end -}}
+
+    {{ if isset .Params "sponsors" }}
+    {{- end -}}
   </article>
 {{ end }}

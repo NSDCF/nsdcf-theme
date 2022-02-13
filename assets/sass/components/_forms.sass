@@ -1,6 +1,7 @@
 =base-input-no-bg
   appearance: none
   border: 1px solid var(--secondary-dark)
+  box-sizing: border-box
   color: var(--primary)
   font-family: $font-serif
   outline: none
@@ -102,10 +103,12 @@
 
   &__textarea
     +base-input-no-bg
+    background: var(--secondary-light)
     border-radius: .25em
-    transition: background .2s ease-out;
+    font-size: var(--step-0)
     margin: var(--space-xs) 0 0
     padding: var(--space-xs)
+    transition: background .2s ease-out;
     width: 100%
     &:focus
       background: var(--secondary-lightest)

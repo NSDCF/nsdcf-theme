@@ -1,10 +1,11 @@
-.upcoming-distinguished-alumni
+.upcoming-event
   background: var(--secondary-lightest)
   margin-top: var(--space-xl)
   padding: var(--space-3xl) 0 var(--space-l)
   position: relative
+  overflow: hidden
 
-.upcoming-distinguished-alumni__year
+.upcoming-event__year
   display: block
   position: absolute
   left: -.125em
@@ -20,7 +21,7 @@
     right: var(--space-s)
     font-size: calc(var(--step-7) * 3)
 
-.upcoming-distinguished-alumni__title
+.upcoming-event__title
   font-size: var(--step-3)
   font-weight: 300
   grid-column: main-start / main-end
@@ -29,7 +30,7 @@
   +respond("desktop")
     grid-column: col 2 / main-end
 
-.upcoming-distinguished-alumni__summary
+.upcoming-event__summary
   font-size: var(--step-1)
   font-weight: 300
   grid-column: main-start / main-end
@@ -40,3 +41,154 @@
   a
     text-decoration: none
     font-style: normal
+
+.past-event-intro
+  margin-top: var(--space-xl)
+  //padding: var(--space-3xl) 0 var(--space-l)
+  +respond("tablet-portrait")
+    grid-column: main-start / span 4
+
+// Single Page
+
+.event-details
+  background: var(--secondary-lightest)
+  margin-top: var(--space-s)
+  padding: var(--space-m) 0
+  position: relative
+  overflow: hidden
+  +respond("tablet-landscape")
+    margin-top: var(--space-xl)
+
+.event-details__bg-text
+  display: block
+  position: absolute
+  left: -1.2em
+  bottom: -.3em
+  grid-column: none
+  line-height: 1
+  padding: 0
+  color: var(--secondary)
+  font-size: calc(var(--step-7) * 4)
+  z-index: 1
+  user-select: none
+  white-space: nowrap
+  overflow: hidden
+  +respond("tablet-portrait")
+    font-size: calc(var(--step-7) * 3)
+    bottom: -.4em
+  +respond("tablet-landscape")
+    font-size: calc(var(--step-7) * 2)
+  +respond("desktop")
+    font-size: var(--step-7)
+    bottom: -.4em
+
+.event-details__wrapper
+  z-index: 2
+  display: flex
+  padding: 0
+  +respond("desktop-wide")
+    grid-column: col 2 / main-end
+  > *
+    flex-grow: 1
+    padding: 0 var(--space-2xs)
+
+.event-details__item
+  margin-top: var(--space-3xs)
+  margin-bottom: var(--space-3xs)
+  z-index: 2
+  +respond("tablet-landscape")
+    margin-top: 0
+    margin-bottom: 0
+
+  &--date
+    position: relative
+    //overflow: hidden
+    //border-right: 1px solid var(--secondary)
+    +respond("tablet-landscape")
+      display: flex
+      align-items: center
+      grid-column: main-start / main-end
+    +respond("desktop-wide")
+      grid-column: half-gutter-start / col 2
+
+.event-details__date
+  font-weight: 300
+  font-style: italic
+
+.event-details__day
+  font-size: var(--step-1)
+  font-weight: 300
+  font-style: normal
+
+.event-details__info
+  display: block
+  //flex-shrink: 0
+  flex: 0 0 100%
+  //width: 100%
+  &--name
+    font-weight: 300
+    font-style: italic
+
+.event-details__schedule
+  //display: flex
+  list-style: none
+  padding: 0
+  margin: 0
+
+.event-details__schedule-li
+  display: flex
+  justify-content: space-between
+
+.schedule__dl
+
+.schedule__dt
+  font-style: italic
+
+
+.event-recipients
+  margin-top: var(--space-xl)
+
+.event-recipients__heading
+  font-weight: 300
+  margin-bottom: 0
+  +respond("tablet-landscape")
+    grid-column: col 3 / main-end
+.event-recipients__p
+  +respond("tablet-landscape")
+    grid-column: col 3 / main-end
+
+.reservations
+  background: var(--secondary-lightest)
+  margin-top: var(--space-xl)
+  padding-top: var(--space-xl)
+  padding-bottom: var(--space-xl)
+
+.reservations__heading
+  font-weight: 300
+  margin-bottom: 0
+  grid-column: main-start / main-end
+  +respond("tablet-landscape")
+    grid-column: main-start / col 5
+  +respond("desktop")
+    grid-column: half-gutter-start / col 3
+    max-width: 13em
+.reservations__p
+  grid-column: main-start / main-end
+  +respond("tablet-landscape")
+    grid-column: main-start / col 5
+  +respond("desktop")
+    grid-column: half-gutter-start / col 3
+    max-width: 15em
+
+.reservations-form
+  margin-top: var(--space-l)
+  +respond("desktop")
+    grid-column: col 3 / main-end
+    grid-row: 1 / span 4
+    margin-top: var(--space-l)
+
+.reservations__small-print
+  font-size: var(--step--1)
+  margin-top: var(--space-m)
+  +respond("desktop")
+    padding: 0 var(--space-xl)

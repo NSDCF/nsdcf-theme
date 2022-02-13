@@ -158,20 +158,18 @@
         {{ with .Params.eventEndDate }}"endDate": {{ dateFormat . $.Site.Params.ISO8601 }},{{ end }}
         "eventAttendanceMode": {{with .Params.eventAttendanceMode}}{{.}}{{else}}"OfflineEventAttendanceMode"{{end}},
         "eventStatus": {{with .Params.eventStatus}}{{.}}{{else}}"EventScheduled"{{end}}
-        {{- if .Params.sections.venue -}}
-          {{- range .Params.sections.venue -}}
-            ,"location": {
-              "@type": "Place",
-              "address": {
-                {{ with .city }}"addressLocality": {{.}},{{ end }}
-                {{ with .state }}"addressRegion": {{.}},{{ end }}
-                {{ with .postal }}"postalCode": {{.}},{{ end }}
-                {{ with .street }}"streetAddress": {{.}}{{ end }}
-              },
-              {{ with .url }}"url": {{.}},{{ end }}
-              {{ with .name }}"name": {{.}}{{ end }}
-            }
-          {{- end -}}
+        {{- with .Params.venue -}}
+          ,"location": {
+            "@type": "Place",
+            "address": {
+              {{ with .city }}"addressLocality": {{.}},{{ end }}
+              {{ with .state }}"addressRegion": {{.}},{{ end }}
+              {{ with .postal }}"postalCode": {{.}},{{ end }}
+              {{ with .street }}"streetAddress": {{.}}{{ end }}
+            },
+            {{ with .url }}"url": {{.}},{{ end }}
+            {{ with .name }}"name": {{.}}{{ end }}
+          }
         {{- end -}}
         {{- if .Params.ticketsAvailable -}}
           {{- range .Params.ticketOptions -}}

@@ -4,7 +4,7 @@
   {{- $featured := cond (ne $featured nil) $featured ($images.GetMatch "{*cover*,*thumbnail*}") -}}
   {{- $featured := $featured.Fill "1600x720" -}}
 
-  <article class="content-grid">
+  <article>
     <header class="mast mast--section{{ with $featured}} mast--section-has-image{{end}} grid">
       <h1 class="mast__title">{{ .Title }}</h1>
       {{ with $featured -}}
@@ -17,29 +17,28 @@
   </article>
 
   {{ range first 1 (where .Pages "Params.eventComplete" false) }}
-    <article class="grid upcoming-distinguished-alumni">
-      <span class="upcoming-distinguished-alumni__year">{{ dateFormat "2006" .Params.eventDate }}</span>
-      <h2 class="upcoming-distinguished-alumni__title">{{.Title}}</h2>
-      <p class="upcoming-distinguished-alumni__summary">{{.Summary}} <a href="{{.URL}}" title="">Learn more.</a></p>
+    <article class="grid upcoming-event">
+      <span class="upcoming-event__year">{{ dateFormat "2006" .Params.eventDate }}</span>
+      <h2 class="upcoming-event__title">{{.Title}}</h2>
+      <p class="upcoming-event__summary">{{.Summary}} <a href="{{.URL}}" title="">Learn more.</a></p>
     </article>
   {{ end }}
 
-  <section class="grid">
-    <div class="cards cards--section grid">
-      {{/* {{ range where .Pages.ByWeight "Params.exclude" "ne" "true" }}
-        <article class="card">
-          {{ if and (.Resources.GetMatch "*featured*") (.Params.showImage) }}
-            {{ partial "responsive-image" (dict "img" "*featured*" "class" "card" "dot" .) }}
-          {{ end }}
+  <section class="content grid past-events">
+    <article class="past-event-intro">
+      {{ with .Params.PastEventsHeading }}<h2 class="past-event-intro__title">{{.}}</h2>{{ end }}
+      {{ with .Params.PastEventsIntro }}<p class="past-event-intro__p">{{.}}</h1>{{ end }}
+    </article>
 
-          <h3 class="card__title">
-            <a href="{{ .Permalink }}" class="card__link">{{ .Title }}</a>
-          </h3>
-          {{ if not .Params.noSummary }}
-            <div class="listing__summary">{{ .Summary }}</div>
-          {{ end }}
-        </article>
-      {{ end }} */}}
-    </div>
+    {{ range where .Pages "Params.eventComplete" true }}
+      <article class="past-event">
+        <h3 class="card__title">
+          <a href="{{ .Permalink }}" class="card__link">{{ .Title }}</a>
+        </h3>
+        {{ if not .Params.noSummary }}
+          <div class="listing__summary">{{ .Summary }}</div>
+        {{ end }}
+      </article>
+    {{ end }}
   </section>
 {{ end }}
