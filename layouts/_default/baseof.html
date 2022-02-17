@@ -47,9 +47,9 @@
     {{- partial "head/site-inline-js.html" -}}
   </head>
 
-  <body class="{{ with .Type }}{{ . }} {{ end -}}
-               {{ with .Kind }}{{ . }} {{ end -}}
-               {{ with .Layout }}{{ . }}{{ end -}}">
+  <body class="{{ with .Type }}{{ . }}{{ end -}}
+               {{ with .Kind }} {{ . }}{{ end -}}
+               {{ with .Layout }} {{ . }}{{ end -}}">
 
     {{ block "nav" . }}
       {{ partial "header/header" . }}

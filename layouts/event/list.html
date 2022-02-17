@@ -35,9 +35,9 @@
         <h3 class="card__title">
           <a href="{{ .Permalink }}" class="card__link">{{ .Title }}</a>
         </h3>
-        {{ if not .Params.noSummary }}
+        {{/* {{ if not .Params.noSummary }}
           <div class="listing__summary">{{ .Summary }}</div>
-        {{ end }}
+        {{ end }} */}}
       </article>
     {{ end }}
   </section>
