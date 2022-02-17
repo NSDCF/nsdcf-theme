@@ -20,7 +20,7 @@
     <article class="grid upcoming-event">
       <span class="upcoming-event__year">{{ dateFormat "2006" .Params.eventDate }}</span>
       <h2 class="upcoming-event__title">{{.Title}}</h2>
-      <p class="upcoming-event__summary">{{.Summary}} <a href="{{.URL}}" title="">Learn more.</a></p>
+      <p class="upcoming-event__summary">{{.Summary}} <a href="{{.Permalink}}" title="">Learn more.</a></p>
     </article>
   {{ end }}
 

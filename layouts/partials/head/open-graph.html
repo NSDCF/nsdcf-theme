@@ -43,7 +43,7 @@ some minor changes */}}
 
 {{- with .Params.videos }}
   {{- range . }}
-    <meta property="og:video" content="{{ .url | absURL }}" />
+    <meta property="og:video" content="{{ .Permalink | absURL }}" />
   {{ end -}}
 {{ end -}}
 

@@ -68,7 +68,7 @@
             "@id": {{ print .Site.Params.alumni.schemaURL "#organization" }},
             "name": {{print "\"" | safeJS }}{{ safeJS .Site.Params.alumni.title }}{{print "\"" | safeJS }},
             "alternateName": {{ .Site.Params.alumni.shortTitle }},
-            "url": {{ absURL .Site.Params.alumni.url }},
+            "url": {{ absURL .Site.Params.alumni.Permalink }},
             "sameAs": [
               {{ range $i, $e := $.Scratch.Get "sameAsAlumni" -}}
                 {{ if $i -}}, {{ end }}{{ . }}
@@ -119,7 +119,7 @@
               {{ with .description }}"description": {{.}},{{ end }}
               {{ with .duration }}"duration": {{ print (cond (hasPrefix . "T") . (print "T" .)) | upper}},{{ end}}
               {{ with .uploadDate }}"uploadDate": {{ .Format $.Site.Params.ISO8601 }},{{ end }}
-              {{ with .url }}"contentUrl": {{.}},{{ end }}
+              {{ with .Permalink }}"contentUrl": {{.}},{{ end }}
               {{ if .youtubeId -}}"embedUrl": "https://www.youtube.com/embed/{{ print .youtubeId}}",{{ else if .embedUrl }}"embedUrl": {{.embedUrl}},{{ end }}
               {{ with .name }}"name": {{.}},{{ end }}
               {{ if .youtubeId }}"thumbnailUrl": "http://i3.ytimg.com/vi/{{ print .youtubeId}}/maxresdefault.jpg"{{ else if .thumbnailUrl }}"thumbnailUrl": {{.thumbnailUrl}}{{ end }}
@@ -167,7 +167,7 @@
               {{ with .postal }}"postalCode": {{.}},{{ end }}
               {{ with .street }}"streetAddress": {{.}}{{ end }}
             },
-            {{ with .url }}"url": {{.}},{{ end }}
+            {{ with .Permalink }}"url": {{.}},{{ end }}
             {{ with .name }}"name": {{.}}{{ end }}
           }
         {{- end -}}
@@ -258,7 +258,7 @@
             "position": {{.position}},
             "item": {
               "name": "name",
-              "@id": {{ .url }}
+              "@id": {{ .Permalink }}
             }
           }{{- if ne (add $i 1) $len -}},{{- end -}}
         {{- end -}}
