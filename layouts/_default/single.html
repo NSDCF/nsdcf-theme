@@ -9,7 +9,8 @@
       <h1 class="mast__title">{{ .Title }}</h1>
       {{ with $featured -}}
         <figure class="mast__fig">
-          <img src="{{ $featured.Permalink }}" class="mast__img"/>
+          <img src="{{ .Permalink }}" class="mast__img"/>
+          {{ with .Params.citation }}<p class="mast__caption">{{. | markdownify}}</p>{{ end }}
         </figure>
       {{- end -}}
     </header>

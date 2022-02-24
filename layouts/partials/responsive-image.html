@@ -4,6 +4,7 @@
 {{- $class   := index $classes 0 -}}
 {{- $alt     := cond (ne ($orig.Params.alt) nil) $orig.Params.alt (.alt) }}
 {{- $caption := cond (ne $orig.Params.caption nil) $orig.Params.caption (.caption) }}
+{{- $hasCaption := cond (eq .caption "true") (true) (false) }}
 {{- $cite    := cond (ne $orig.Params.citation nil) $orig.Params.citation (.cite) }}
 {{- $lazy    := cond (eq .lazy "true") (true) (false) -}}
 {{- $crop    := .crop }}
@@ -76,7 +77,7 @@
         {{- if $alt }} alt="{{$alt}}"{{ else if $caption }} alt="{{$caption}}"{{end}}
         {{- if $lazy }} loading="lazy"{{ end }} />
 
-  {{- if $caption -}}
+  {{- if $hasCaption -}}
     <figcaption class="img__caption{{ if eq .size "hero" }} img__caption--hero{{ end }}">
       <p class="img__caption_p">{{$caption}}{{ if $cite }}<span class="img__cite">{{$cite}}</span>{{end}}</p>
     </figcaption>
