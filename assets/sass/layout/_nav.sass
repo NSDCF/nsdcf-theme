@@ -75,3 +75,17 @@
 
   &--active
     color: var(--tertiary)
+
+  &--external
+    &:after
+      background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0xNS42Mzk2IDcuMDI1MjdIMTIuMDE4MVY1LjAyNTI3SDE5LjAxODFWMTIuMDI1M0gxNy4wMTgxVjguNDc1MjhMMTIuMTA0MiAxMy4zODkyTDEwLjY4OTkgMTEuOTc1TDE1LjYzOTYgNy4wMjUyN1oiLz48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0xMC45ODE5IDYuOTc0NzNINC45ODE5M1YxOC45NzQ3SDE2Ljk4MTlWMTIuOTc0N0gxNC45ODE5VjE2Ljk3NDdINi45ODE5M1Y4Ljk3NDczSDEwLjk4MTlWNi45NzQ3M1oiLz48L3N2Zz4=") 100% -100% / 110% 110% no-repeat
+      content: ""
+      display: inline-block
+      width: var(--step-1)
+      height: var(--step-1)
+      margin-left: var(--space-3xs)
+      +respond("desktop")
+        width: var(--step-2)
+        height: var(--step-2)
+    &:hover:after
+      filter: invert(37%) sepia(54%) saturate(270%) hue-rotate(180deg) brightness(98%) contrast(93%)

@@ -17,7 +17,7 @@
       {{ $currentPage := . }}
       {{ range .Site.Menus.main }}
         <li class="nav__item">
-          <a class="nav__link {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}nav__link--active{{end}}" href="{{.URL}}">{{ .Name }}</a>
+          <a class="nav__link {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}nav__link--active{{end}}{{ if .Params.external }} nav__link--external{{end}}" href="{{.URL}}" {{ if .Params.external }} target="_blank"{{end}}>{{ .Name }}</a>
         </li>
       {{ end }}
     </ul>
