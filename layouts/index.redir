@@ -4,3 +4,8 @@
     {{  . | printf "%-35s" }}	{{ $p.RelPermalink -}}
   {{ end -}}
 {{- end -}}
+{{ with $.Site.Data.redirects }}
+  {{ range .redirects }}
+    {{  .oldURL | printf "%-35s" }}	{{ .newURL -}}
+  {{- end -}}
+{{- end -}}
