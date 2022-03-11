@@ -147,15 +147,38 @@
 
 .event-recipients
   margin-top: var(--space-xl)
+  &--big-cards
+    background: var(--secondary-lightest)
+    padding-top: var(--space-2xl)
 
 .event-recipients__heading
   font-weight: 300
   margin-bottom: 0
   +respond("tablet-landscape")
     grid-column: col 3 / main-end
+
 .event-recipients__p
   +respond("tablet-landscape")
     grid-column: col 3 / main-end
+
+.slider-nav--event-recipients
+  grid-row: 3
+  grid-column: full-start / col 2
+  padding-left: 0
+  text-align: right
+  z-index: 10
+  +respond("tablet-portrait")
+    //background: var(--secondary-lightest)
+    grid-column: full-start / main-start
+  +respond("tablet-landscape")
+    grid-column: full-start / half-gutter-start
+  +respond("desktop")
+    grid-column: full-start / main-start
+    grid-row: 3
+    text-align: right
+
+.event-recipients__slider-wrapper
+  grid-row: 3
 
 .reservations
   background: var(--secondary-lightest)

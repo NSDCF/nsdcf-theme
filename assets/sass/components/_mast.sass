@@ -66,9 +66,9 @@
   padding: 0
 
   +respond("tablet-landscape")
-    margin-bottom: calc(-1 * var(--space-xl))
-    margin-top: var(--space-xs)
     grid-column: full-gutter-start / full-end
+    margin: var(--space-xs) 0 calc(-1 * var(--space-xl))
+    padding-left: var(--space-2xs)
 
   +respond("desktop")
     grid-column: half-gutter-start / full-end

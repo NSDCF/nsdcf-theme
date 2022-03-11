@@ -1,0 +1,77 @@
+.big-cards
+  grid-column: full-start / full-end
+  padding: 0
+  +respond("tablet-landscape")
+    margin-top: var(--space-m)
+
+.big-card
+  display: grid
+  grid-template-columns: [full-start] var(--space-m-l) [full-gutter-start half-gutter-start main-start] repeat(6, [col] 1fr) [main-end] var(--space-m-l) [full-end]
+  justify-content: start
+  grid-template-rows: auto 1fr
+  grid-template-rows: min-content
+
+  +respond("tablet-portrait")
+    max-width: none
+    width: auto
+    grid-template-columns: [full-start] var(--space-m-l) [full-gutter-start] .702fr [half-gutter-start] .702fr [main-start] repeat(6, [col] 1fr) [main-end] var(--space-m-l) [full-end]
+    //padding: 0 calc(var(--space-xl) + var(--space-m))
+    //padding: 0
+
+  +respond("tablet-landscape")
+    grid-template-columns: [full-start] var(--space-xl) [full-gutter-start] .702fr [half-gutter-start] .702fr [main-start] repeat(6, [col] 1fr) [main-end] var(--space-xl) [full-end]
+
+  > *
+    grid-column: main-start / main-end
+    padding: 0 var(--space-2xs)
+
+  &__img-wrapper
+    float: left
+    grid-column: main-start / span 2
+    grid-row: 2
+    margin-top: var(--prose-top-gap)
+    z-index: 12
+    +respond("tablet-portrait")
+      grid-column: full-gutter-start / col 2
+    +respond("tablet-landscape")
+      grid-column: col 5 / main-end
+      grid-row: 2 / span 3
+    +respond("desktop")
+      grid-column: half-gutter-start / span 3
+      margin-top: var(--space-s)
+
+      //padding-right: 0
+
+  &__content
+    grid-row: 2
+    grid-column: col 3 / main-end
+    +respond("tablet-portrait")
+      grid-column: col 2 / main-end
+    +respond("tablet-landscape")
+      grid-column: half-gutter-start / col 5
+    +respond("desktop")
+      grid-column: span 4 / main-end
+    > p:first-of-type::first-line
+      font-variant-caps: all-small-caps
+
+  .card__meta
+    grid-row: 1
+    grid-column: col 2 / main-end
+    +respond("tablet-portrait")
+      grid-column: col 1 / main-end
+    +respond("tablet-landscape")
+      grid-column: half-gutter-start / col 5
+    +respond("desktop")
+      grid-column: main-start / main-end
+
+  .card__title
+    line-height: 1
+    font-size: var(--step-2)
+    margin-bottom: 0
+    +respond("tablet-landscape")
+      margin: 0
+
+  .card__subheading
+    display: block
+    font-size: var(--step-1)
+    font-style: italic

@@ -1,0 +1,43 @@
+.slider
+  display: grid
+  grid: auto / auto-flow max-content
+  grid-auto-rows: 100%
+  grid-auto-columns: 100%
+  grid-auto-flow: column
+  grid-gap: 1rem
+  align-items: stretch
+  height: 100%
+  overflow-x: auto
+  scroll-snap-type: x mandatory
+  scroll-behavior: smooth
+  scrollbar-width: none
+
+  > *
+    scroll-snap-align: start
+
+.slider-btn
+  background: none
+  border: none
+  color: var(--secondary-dark)
+  font-family: $font-serif
+  font-size: var(--step-4)
+  line-height: 1
+  padding: 0
+  &:hover
+    color: var(--primary-lightest)
+    cursor: pointer
+
+.slider-nav
+  //padding: 0
+
+.slider-nav__btns
+  background: var(--secondary-light)
+  margin-top: var(--space-2xs)
+  padding: var(--space-2xs) var(--space-2xs) var(--space-3xl)
+  +respond("tablet-landscape")
+    margin-top: var(--space-m)
+  +respond("desktop")
+    padding-bottom: calc(var(--space-3xl) * 3)
+
+.slider-nav__count
+  display: none
