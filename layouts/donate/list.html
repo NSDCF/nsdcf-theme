@@ -18,25 +18,29 @@
       <div class="donate-intro">{{ .Content }}</div>
     </div>
 
-    <div class="donate-highlights sub-grid grid">
-      {{ range .Params.highlights }}
-        <div class="donate-highlight-item">
-          <span class="donate-highlight-item__number donate-highlight-item__number--{{.type}}">{{.number}}</span>
-          <span class="donate-highlight-item__caption">{{.caption}}</span>
-        </div>
-      {{end}}
-    </div>
+    {{ if .Params.highlights }}
+      <div class="donate-highlights sub-grid grid">
+        {{ range .Params.highlights }}
+          <div class="donate-highlight-item">
+            <span class="donate-highlight-item__number donate-highlight-item__number--{{.type}}">{{.number}}</span>
+            <span class="donate-highlight-item__caption">{{.caption}}</span>
+          </div>
+        {{end}}
+      </div>
+    {{ end }}
 
-    {{ range first 1 .Params.quotes }}
-      <blockquote class="grid blockquote blockquote--big blockquote--centered">
-        <p class="blockquote__p">{{.text}}</p>
-        <cite class="blockquote__cite">
-          <span class="blockquote__cite-name">{{.name}}</span>
-          <span class="blockquote__cite-title">{{.description}}</cite>
+    {{ if .Params.quotes }}
+      <blockquote class="grid blockquote blockquote--big blockquote--centered{{ if (not .Params.highlights) }} blockquote--alt-bg{{end}}">
+        {{ range first 1 .Params.quotes }}
+          <p class="blockquote__p">{{.text}}</p>
+          <cite class="blockquote__cite">
+            <span class="blockquote__cite-name">{{.name}}</span>
+            <span class="blockquote__cite-title">{{.description}}</cite>
+        {{ end }}
       </blockquote>
     {{ end }}
 
-    <div class="grid donate-form">
+    <div class="grid donate-form{{ if (not .Params.highlights) }} donate-form--light{{end}}">
       <h3 class="donate-subheading donate-form__heading">{{.Params.DonateFormHeading}}</h3>
       <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="donation_form__form">
         <input type="hidden" name="cmd" value="_donations">
@@ -91,19 +95,22 @@
           </div>
         </div>
 
-        <div class="donation_form__fieldgroup donation_form__fieldgroup--directed">
-          <h5 class="donation_form__sub_heading">{{ .Params.stepTwoHeading }}</h5>
-          <select class="form__select form__select--donate" id="directed_donation" name="item_name">
-            {{ range .Params.donationOptions }}
-              <option value="{{.}}">{{.}}</option>
-            {{ end }}
-          </select>
 
-          <div class="directed_donation_other">
-            <label class="donation_label donation_label--directed" for="item_number"><p class="donation_label__p">If other, please specify the name of the program or scholarship fund you would like to direct your donation towards:</p></label>
-            <input name="item_number" placeholder="Name of program or fund" class="form__input donation__directed-input" id="directed_donation_other__textarea"></input>
+        {{- if .Params.donationOptions -}}
+          <div class="donation_form__fieldgroup donation_form__fieldgroup--directed">
+            <h5 class="donation_form__sub_heading">{{ .Params.stepTwoHeading }}</h5>
+            <select class="form__select form__select--donate" id="directed_donation" name="item_name">
+              {{ range .Params.donationOptions }}
+                <option value="{{.}}">{{.}}</option>
+              {{ end }}
+            </select>
+
+            <div class="directed_donation_other">
+              <label class="donation_label donation_label--directed" for="item_number"><p class="donation_label__p">If other, please specify the name of the program or scholarship fund you would like to direct your donation towards:</p></label>
+              <input name="item_number" placeholder="Name of program or fund" class="form__input donation__directed-input" id="directed_donation_other__textarea"></input>
+            </div>
           </div>
-        </div>
+        {{- end -}}
 
         <div class="donation_form__fieldgroup--btn">
           <button class="form__button form__button--donation button--svg button--paypal" type="submit">
@@ -117,19 +124,21 @@
     </div>
   </article>
 
-  <section class="grid donate-other-options">
-    {{ if .Params.otherOptionsText }}
-      <h2 class="donate-subheading">{{.Params.OtherOptionsHeading}}</h2>
-      <div class="donate-intro">{{.Params.otherOptionsText | safeHTML }}</div>
+  {{- if .Params.otherOptionsHeading -}}
+    <section class="grid donate-other-options">
+      {{ if .Params.otherOptionsText }}
+        <h2 class="donate-subheading">{{.Params.OtherOptionsHeading}}</h2>
+        <div class="donate-intro">{{.Params.otherOptionsText | safeHTML }}</div>
 
-      {{ range where .Pages.ByWeight "Params.exclude" "ne" "true" }}
-        <div class="donations-nav-link">
-          <h3 class="donations-nav-link__title"><a href="{{ .Permalink }}" class="card__link">{{.Title}}</a></h3>
-          {{ with .Params.summary }}
-            <p class="donations-nav-link__summary">{{.}}</p>
-          {{ end }}
-        </div>
+        {{ range where .Pages.ByWeight "Params.exclude" "ne" "true" }}
+          <div class="donations-nav-link">
+            <h3 class="donations-nav-link__title"><a href="{{ .Permalink }}" class="card__link">{{.Title}}</a></h3>
+            {{ with .Params.summary }}
+              <p class="donations-nav-link__summary">{{.}}</p>
+            {{ end }}
+          </div>
+        {{ end }}
       {{ end }}
-    {{ end }}
-  </section>
+    </section>
+  {{- end -}}
 {{ end }}
