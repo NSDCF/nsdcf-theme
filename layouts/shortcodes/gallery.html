@@ -1,6 +1,5 @@
 {{ $images := $.Page.Resources.Match (.Get 0) }}
 {{ $galleryType := .Get 1 }}
-
 <div class="gallery{{ with .Get 1 }} gallery--{{.}}{{end}}">
   {{- with $images -}}
     {{- range $i, $e := . -}}
