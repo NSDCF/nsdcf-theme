@@ -7,7 +7,15 @@
   <article class="content-grid">
     <header class="mast mast--section{{ with $featured}} mast--section-has-image{{end}} grid">
       <h1 class="mast__title">{{ .Title }}</h1>
-      {{ with $featured -}}
+      {{- if .Params.videos }}
+        {{- range first 1 .Params.videos }}
+          <figure class="mast__fig mast__fig--youtube">
+            <div class="yt-container yt-container--mast">
+              <iframe src="https://www.youtube-nocookie.com/embed/{{.youtubeId}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </figure>
+        {{- end -}}
+      {{ else if $featured -}}
         <figure class="mast__fig">
           <img src="{{ $featured.Permalink }}" class="mast__img"/>
         </figure>
