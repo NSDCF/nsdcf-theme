@@ -7,3 +7,22 @@
 
   +respond("desktop")
     grid-column: main-start / main-end
+
+.blocks-halves
+  display: grid
+  padding: 0
+  +respond("tablet-landscape")
+    grid-template-columns: repeat(4, [col] 1fr)
+
+.block-half
+  grid-column: span 2
+  //grid-column: main-start / main-end
+  //flex: 1
+  padding: 0 var(--space-2xs)
+  margin-bottom: var(--space-s)
+  +respond("tablet-landscape")
+    grid-column: span 2
+  +respond("desktop")
+    grid-column: span 2
+  +respond("desktop-wide")
+    grid-column: span 1
