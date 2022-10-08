@@ -4,7 +4,7 @@
 {{- $class   := index $classes 0 -}}
 {{- $alt     := cond (ne ($orig.Params.alt) nil) $orig.Params.alt (.alt) }}
 {{- $caption := cond (ne $orig.Params.caption nil) $orig.Params.caption (.caption) }}
-{{- $hasCaption := cond (eq .caption "true") (true) (false) }}
+{{- $hasCaption := cond (ne $caption nil) (true) (false) }}
 {{- $cite    := cond (ne $orig.Params.citation nil) $orig.Params.citation (.cite) }}
 {{- $lazy    := cond (eq .lazy "true") (true) (false) -}}
 {{- $crop    := .crop }}
