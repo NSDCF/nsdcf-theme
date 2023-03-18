@@ -142,7 +142,7 @@
 
         <div class="form__field">
           <label class="form__label" for="os0">Guest Name(s)</label>
-          <small class="form__description">Please list each guest name, including your own, on a separate line along with their dinner selections.{{with .Params.dinnerSelections}} {{. | markdownify}}{{end}}</small>
+          <small class="form__description">Please list each guest name, including your own, on a separate line.</small>
           <input type="hidden" name="on0" value="Guest Names">
           <textarea class="form__textarea" name="os0" rows="4" placeholder="Guest names, one per line" required wrap></textarea>
         </div>
