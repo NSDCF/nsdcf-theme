@@ -1,6 +1,51 @@
+.crumbs
+  background: var(--secondary)
+  border-top: 1px solid var(--secondary-lightest)
+
+.crumbs__ol
+  list-style: none
+  margin: 0
+  padding-top: var(--space-s)
+  padding-bottom: var(--space-s)
+  +respond("desktop-wide")
+    grid-column: half-gutter-start / full-end
+
+.crumbs__li
+  display: inline
+  overflow-wrap: break-word
+  font-size: var(--step--1)
+
+  &::after
+    //display: inline-block
+    color: var(--secondary-darkest)
+    content: ">"
+    padding: 0 var(--space-3xs)
+  
+  &:last-of-type::after
+    display: none
+    padding: 0
+    
+  &--active
+    font-style: italic
+
+.crumbs__href
+  font-style: normal
+  text-decoration: none
+
+.crumbs__home-svg
+  display: inline-block
+  height: 1em
+  width: 1em
+  fill: var(--secondary-dark)
+  //margin-right: var(--space-3xs)
+  vertical-align: -.1em
+
+  .crumbs__href--home:hover &
+    fill: var(--tertiary-light)
+  
 .footer
   background: var(--secondary-lightest)
-  padding-top: var(--space-l)
+  //padding-top: var(--space-l)
   padding-bottom: var(--space-m)
   margin-top: var(--space-xl)
 
@@ -30,7 +75,7 @@
 .newsletter
   +respond("desktop-wide")
     grid-column: col 3 / main-end
-    grid-row: 1
+    grid-row: 2
 
 .newsletter__heading
   font-size: var(--step-0)
@@ -172,7 +217,7 @@
 
   +respond("desktop-wide")
     grid-column: half-gutter-start / col 3
-    grid-row: 1
+    grid-row: 2
 
 .footer__logo-link-span
   display: block

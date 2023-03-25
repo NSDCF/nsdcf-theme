@@ -1,4 +1,27 @@
 <footer class="footer grid">
+  {{ if (ne .IsHome true) }}
+    <nav class="crumbs sub-grid">
+      <ol class="crumbs__ol">
+        {{- range $i, $e := .Ancestors.Reverse -}}
+          {{- if  (eq $i 0) -}}
+            <li class="crumbs__li crumbs__li--home">
+              <a class="crumbs__href crumbs__href--home" href="{{.Permalink}}" aria-label="{{.LinkTitle}}">
+                <svg class="crumbs__home-svg" viewBox="0 0 24 24">
+                  <title>{{.LinkTitle}}</title>
+                  <path
+                    d="M23,25H-1V11.043c0-.929,.42-1.79,1.151-2.363L9.151,1.638c1.088-.854,2.609-.854,3.697,0l9,7.043c.731,.572,1.151,1.434,1.151,2.362v13.957Z" />
+                </svg>
+              </a>
+            </li>
+          {{- else -}}
+            <li class="crumbs__li"><a class="crumbs__href" href="{{.Permalink}}" >{{.LinkTitle}}</a></li>
+          {{- end -}}
+        {{- end -}}
+        <li class="crumbs__li crumbs__li--active" aria-current="page">{{.LinkTitle}}</li>
+      </ol>
+    </nav>
+  {{ end }}
+
   <div class="newsletter">
     <h5 class="newsletter__heading">{{ .Site.Params.contact.newsletterHeading }}</h5>
     <form action="https://nsdcf.us15.list-manage.com/subscribe/post?u=347d678a4ec7efe1cf490d9fd&amp;id=e13e076af9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="newsletter-form newsletter-form--validate" target="_blank">

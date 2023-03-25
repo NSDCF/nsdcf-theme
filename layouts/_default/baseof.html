@@ -52,7 +52,7 @@
                {{ with .Layout }} {{ . }}{{ end -}}">
 
     {{ block "nav" . }}
-      {{ partial "header/header" . }}
+      {{ partial "site-header" . }}
     {{ end }}
 
     <main class="main">
@@ -60,7 +60,7 @@
       {{ block "main" . }}{{ end }}
     </main>
 
-    {{ partial "footer/site-footer" . }}
+    {{ partial "site-footer" . }}
     {{ template "_internal/google_analytics_async.html" . }}
   </body>
 </html>
