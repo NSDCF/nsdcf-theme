@@ -30,7 +30,7 @@
       <div class="donate-highlights sub-grid grid">
         {{ range .Params.highlights }}
           <div class="donate-highlight-item">
-            <span class="donate-highlight-item__number donate-highlight-item__number--{{.type}}">{{.number}}</span>
+            <a href="{{.link}}" class="donate-highlight-item__number donate-highlight-item__number--{{.type}}">{{.number}}</a>
             <span class="donate-highlight-item__caption">{{.caption}}</span>
           </div>
         {{end}}

@@ -48,8 +48,18 @@
 .donate-highlight-item__number
   display: block
   font-size: var(--step-2)
+  text-decoration: none
   &--dollars::before
     content: "$"
+    font-size: var(--step-1)
+    vertical-align: middle
+  &--dollars::after
+    content: "+"
+    font-size: var(--step-1)
+    vertical-align: middle
+    opacity: .8
+  &--count::after
+    content: none
 
 .donate-other-options
   margin-top: var(--space-xl)
