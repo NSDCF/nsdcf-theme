@@ -4,7 +4,7 @@
   {{- $featured := cond (ne $featured nil) $featured ($images.GetMatch "{*cover*,*thumbnail*}") -}}
   {{- $featured := $featured.Fill "1600x720" -}}
 
-  <article class="grid">
+  <article class="grid event-content">
     <header class="mast mast--section{{ with $featured}} mast--section-has-image{{end}} sub-grid">
       <h1 class="mast__title">{{if .Params.eventComplete}}{{.Title}}{{else}}{{ .Params.titleAlt }}{{end}}</h1>
       {{ with $featured -}}
@@ -115,7 +115,7 @@
     {{- end -}}
 
     {{ if .Params.ticketsAvailable }}
-      <section class="reservations sub-grid" id="reservations">
+      <section class="event-section event-section--reservations sub-grid" id="reservations">
         {{with .Params.reservationsHeading}}<h2 class="reservations__heading">{{.}}</h2>{{end}}
         {{with .Params.reservationsIntro}}<p class="reservations__p">{{. | markdownify }}</p>{{end}}
         {{with .Params.reservationsMisc}}<p class="reservations__p">{{. | safeHTML }}</p>{{end}}
@@ -157,6 +157,15 @@
       </form>
     {{- end -}}
 
+    {{- if (.Params.acceptingAds) -}}
+      {{ with .Resources.GetMatch "advertise.md" }}
+        <section class="event-section event-section--advertise sub-grid" id="advertise">
+          <h2 class="event-section__heading event-section__heading--advertise">{{.Title}}</h2>
+          {{.Content}}
+        </section>
+      {{- end -}}
+    {{- end -}}
+    
     {{ if isset .Params "sponsors" }}
     {{- end -}}
   </article>
