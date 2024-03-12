@@ -119,52 +119,52 @@
         {{with .Params.reservationsHeading}}<h2 class="reservations__heading">{{.}}</h2>{{end}}
         {{with .Params.reservationsIntro}}<p class="reservations__p">{{. | markdownify }}</p>{{end}}
         {{with .Params.reservationsMisc}}<p class="reservations__p">{{. | safeHTML }}</p>{{end}}
-      </end>
 
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="form reservations-form">
-        <!-- paypal variables (hidden) -->
-        {{ partial "paypal-form-variables.html" (dict "email" "alumni.dinner@nsdcf.org") }}
-        <input type="hidden" name="item_name" value="{{ dateFormat "2006" .Params.eventDate }} Knight of Distinguished Alumni Ticket">
-        <input type="hidden" name="amount" value="{{ .Params.tickets.price }}">
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" class="form reservations-form">
+          <!-- paypal variables (hidden) -->
+          {{ partial "paypal-form-variables.html" (dict "email" "alumni.dinner@nsdcf.org") }}
+          <input type="hidden" name="item_name" value="{{ dateFormat "2006" .Params.eventDate }} Knight of Distinguished Alumni Ticket">
+          <input type="hidden" name="amount" value="{{ .Params.tickets.price }}">
 
-        <!-- form inputs -->
-        <div class="form__field">
-          <label class="form__label" for="quantity">Number of Guests</label>
-          <input class="form__input form__input--required" type="number" min="1" max="100" spellcheck="false"  name="quantity" placeholder="Number of Guests" required>
-        </div>
+          <!-- form inputs -->
+          <div class="form__field">
+            <label class="form__label" for="quantity">Number of Guests</label>
+            <input class="form__input form__input--required" type="number" min="1" max="100" spellcheck="false"  name="quantity" placeholder="Number of Guests" required>
+          </div>
 
-        <div class="form__field">
-          <label class="form__label" for="quantity">Name of Honoree</label>
-          <small class="form__description">Please enter the name of the honoree you are attending in support of for seating purposes.</small>
-          <input type="hidden" name="on1" value="Honoree">
-          <input type="text" class="form__input form__input--business-reservation" name="os1" spellcheck="false" placeholder="Name of Honoree">
-        </div>
+          <div class="form__field">
+            <label class="form__label" for="quantity">Name of Honoree</label>
+            <small class="form__description">Please enter the name of the honoree you are attending in support of for seating purposes.</small>
+            <input type="hidden" name="on1" value="Honoree">
+            <input type="text" class="form__input form__input--business-reservation" name="os1" spellcheck="false" placeholder="Name of Honoree">
+          </div>
 
-        <div class="form__field">
-          <label class="form__label" for="os0">Guest Name(s)</label>
-          <small class="form__description">Please list each guest name, including your own, on a separate line.</small>
-          <input type="hidden" name="on0" value="Guest Names">
-          <textarea class="form__textarea" name="os0" rows="4" placeholder="Guest names, one per line" required wrap></textarea>
-        </div>
+          <div class="form__field">
+            <label class="form__label" for="os0">Guest Name(s)</label>
+            <small class="form__description">Please list each guest name, including your own, on a separate line.</small>
+            <input type="hidden" name="on0" value="Guest Names">
+            <textarea class="form__textarea" name="os0" rows="4" placeholder="Guest names, one per line" required wrap></textarea>
+          </div>
 
-        <button class="form__button button--svg button--paypal" type="submit">
-          <span class="button__label--svg">Pay with</span>
-          {{ partial "svg/paypal.svg" (dict "class" "button__icon button__icon--paypal") }}
-        </button>
+          <button class="form__button button--svg button--paypal" type="submit">
+            <span class="button__label--svg">Pay with</span>
+            {{ partial "svg/paypal.svg" (dict "class" "button__icon button__icon--paypal") }}
+          </button>
 
-        {{with .Params.reservationsSmallPrint}}<p class="reservations__small-print">{{.}}</p>{{end}}
+          {{with .Params.reservationsSmallPrint}}<p class="reservations__small-print">{{.}}</p>{{end}}
 
-      </form>
+        </form>
+      </section>
     {{- end -}}
 
-    {{- if (.Params.acceptingAds) -}}
+    {{ if .Params.acceptingAds }}
       {{ with .Resources.GetMatch "advertise.md" }}
-        <section class="event-section event-section--advertise sub-grid" id="advertise">
+        <section class="event-section event-section--advertise sub-grid" id="program-booklets">
           <h2 class="event-section__heading event-section__heading--advertise">{{.Title}}</h2>
           {{.Content}}
         </section>
       {{- end -}}
-    {{- end -}}
+    {{ end }}
     
     {{ if isset .Params "sponsors" }}
     {{- end -}}
