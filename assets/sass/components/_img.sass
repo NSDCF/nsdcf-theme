@@ -34,11 +34,13 @@
 .img--right
   +respond("tablet-portrait")
     grid-column: col 5 / main-end
-    grid-row: span 3
+    grid-row: 1 / span 5
     //justify-self: end
 
     + p,
-    + p + p
+    + p + p,
+    + p + p + p,
+    + p + p + p + p
       grid-column: main-start / col 5
 
 .img--wide-right
