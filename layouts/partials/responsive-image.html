@@ -16,9 +16,9 @@
   {{- $cols = "7" -}}
 {{- else if or (eq $class "img--full-main") (eq $class "card--full-main") -}}
   {{- $cols = "6" -}}
-{{- else if or (eq $class "img--wider-right") (eq $class "img--half-full") -}}
+{{- else if or (eq $class "img--wider-right") (eq $class "img--half-full") (eq $class "gallery") -}}
   {{- $cols = "4" -}}
-{{- else if or (eq $class "img--left-breakout") (eq $class "img--half-main") (eq $class "img--wide-right") -}}
+{{- else if or (eq $class "img--left-breakout") (eq $class "img--half-main") (eq $class "img--wide-right") (eq $class "img--half") -}}
   {{- $cols = "3" -}}
 {{- else if or (eq $class "img--left") (eq $class "img--right") (eq $class "img--third-main") (eq $class "card") -}}
   {{- $cols = "2" -}}

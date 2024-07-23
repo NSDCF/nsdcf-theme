@@ -1,0 +1,22 @@
+\:root
+  --gallery-per-row: 1
+  +respond("tablet-portrait")
+    --gallery-per-row: 2
+  +respond("desktop")
+    --gallery-per-row: 3
+  --gallery-gap: var(--prose-top-gap)
+
+.gallery
+  grid-column: full-gutter-start / main-end
+  display: flex
+  flex-wrap: wrap
+  gap: var(--gallery-gap)
+  
+.gallery__figure
+  flex: 0 0 calc(100% / var(--gallery-per-row) - var(--gallery-gap) * (var(--gallery-per-row) - 1) / var(--gallery-per-row))
+
+.gallery__img
+  //aspect-ratio: 3 / 2
+  object-fit: cover
+  display: block
+  width: 100%

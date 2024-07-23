@@ -1,10 +1,10 @@
 {{ $images := $.Page.Resources.Match (.Get 0) }}
 {{ $galleryType := .Get 1 }}
-<div class="gallery{{ with .Get 1 }} gallery--{{.}}{{end}}">
+<div class="gallery">
   {{- with $images -}}
     {{- range $i, $e := . -}}
       {{- $size := cond (and (eq $i 0) (eq $galleryType "big")) "content" "content-half" -}}
-      {{- partial "responsive-image" (dict "img" .Name "dir" "photos/" "size" $size "class" "gallery__item" "imgClass" "gallery__img" "dot" $.Page) -}}
+      {{- partial "responsive-image" (dict "img" .Name "dir" "photos/" "class" "gallery" "imgClass" "gallery-img__img" "dot" $.Page) -}}
     {{- end -}}
   {{- end -}}
 </div>
