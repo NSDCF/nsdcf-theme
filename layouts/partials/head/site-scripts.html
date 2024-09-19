@@ -1,10 +1,6 @@
-{{ $externals := slice "turbo" }}
-{{ $opts := dict "targetPath" "js/main.js" "externals" $externals }}
-{{ $js := resources.Get "js/main.js" | js.Build $opts }}
-
-{{ if .Site.IsServer }}
-  <script src="{{ $js.RelPermalink }}" async></script>
-{{ else }}
-  {{ $script := $js | minify | fingerprint }}
-  <script src="{{ $script.Permalink }}" integrity="{{ $script.Data.Integrity }}" async></script>
+{{ $externals := slice "turbo" }} {{ $opts := dict "targetPath" "js/main.js" "externals" $externals }} {{ $js :=
+resources.Get "js/main.js" | js.Build $opts }} {{ if hugo.IsServer }}
+<script src="{{ $js.RelPermalink }}" async></script>
+{{ else }} {{ $script := $js | minify | fingerprint }}
+<script src="{{ $script.Permalink }}" integrity="{{ $script.Data.Integrity }}" async></script>
 {{ end }}
