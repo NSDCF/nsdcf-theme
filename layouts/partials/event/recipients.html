@@ -1,0 +1,60 @@
+<section class="event-recipients sub-grid{{ if .Params.hasRecipientBios }} event-recipients--big-cards{{end}}">
+  {{with .Params.recipientsHeading}}
+  <h2 class="event-recipients__heading">{{.}}</h2>
+  {{end}} {{with .Params.recipientsIntro}}
+  <p class="event-recipients__p">{{.}}</p>
+  {{end}} {{- $honorees := where .Site.RegularPages "Section" "honorees" -}} {{- $honorees := $honorees | intersect
+  (where .Site.RegularPages "Params.class" .Params.class ) -}} {{- $honoreesCount := len $honorees -}} {{- if
+  .Params.hasRecipientBios -}}
+  <nav class="slider-nav slider-nav--event-recipients">
+    <div class="slider-nav__btns">
+      <div class="slider-nav__count">
+        <span class="slider-nav__current">1</span>
+        <span class="slider-nav__total">{{$honoreesCount}}</span>
+      </div>
+      <button class="slider-btn slider-btn--prev">&lt;</button><button class="slider-btn slider-btn--next">&gt;</button>
+    </div>
+  </nav>
+  {{- end -}}
+
+  <div class="event-recipients__slider-wrapper sub-grid">
+    <div class="{{ if .Params.hasRecipientBios }}big-cards slider{{else}}cards cards--recipients{{end}}">
+      {{ range sort $honorees ".File.BaseFileName" "asc" }}
+      <article class="{{ if .Content }}big-card{{else}}card card--board{{end}}">
+        <div class="big-card__img-wrapper">
+          {{ if eq .Params.noPhoto true }} {{ else }} {{ if .Resources.GetMatch "*headshot*" }} {{- partial
+          "responsive-image" (dict "img" "*headshot*" "class" "card--board" "alt" .Title "dot" .) -}} {{ else }} {{
+          partial "responsive-image-placeholder" (dict "class" "card--board") }} {{ end }} {{ end }}
+        </div>
+        <header class="card__meta">
+          <h5 class="card__title">
+            {{- with .Params.honorific -}}{{.}}&nbsp;{{- end -}} {{- .Title -}} {{- with .Params.year -}}&nbsp;&lsquo;{{
+            slicestr . 2 }}{{- end -}} {{- with .Params.academicTitle -}},&nbsp;{{.}}{{- end -}} {{- with
+            .Params.serviceInfo -}},&nbsp;{{.}}{{- end -}}
+          </h5>
+          <h6 class="card__subheading">
+            {{ if eq .Params.award "Friend" }}
+            <span class="card__subheading_span"
+              >Friend of Norwin{{ if .Params.posthumous }}&nbsp;<em>(Posthumous)</em>{{ end }}</span
+            >
+            {{ else if eq .Params.award "Scholarship" }}
+            <span class="card__subheading_span">
+              {{- if .Params.actualClass -}} {{ .Params.actualClass }} {{- else -}} {{.Params.Class}} {{- end
+              -}}&nbsp;NAFA Scholarship Recipient</span
+            >
+            {{ else }}
+            <span class="card__subheading_span"
+              >Distinguished Alum in {{.Params.category}}{{ if .Params.posthumous }}&nbsp;<em>(Posthumous)</em>{{ end
+              }}</span
+            >
+            {{ end}}
+          </h6>
+        </header>
+        {{ with .Content }}
+        <div class="big-card__content">{{.}}</div>
+        {{ end }}
+      </article>
+      {{ end }}
+    </div>
+  </div>
+</section>

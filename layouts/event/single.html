@@ -106,7 +106,7 @@
                           {{.Params.Class}}
                         {{- end -}}&nbsp;NAFA Scholarship Recipient</span>
                     {{ else }}
-                      <span class="card__subheading_span">Distinguished Alum in {{.Params.category}}{{ if .Params.posthumous  }}&nbsp;<em>(Posthumous)</em>{{ end }}</span>
+                      <span class="card__subheading_span">Distinguished Alum {{with .Params.category}}in {{.}}{{end}}{{ if .Params.posthumous  }}&nbsp;<em>(Posthumous)</em>{{ end }}</span>
                     {{ end}}
                   </h6>
                 </header>
@@ -171,7 +171,7 @@
         </section>
       {{- end -}}
     {{ end }}
-    
+
     {{ if isset .Params "sponsors" }}
     {{- end -}}
   </article>
