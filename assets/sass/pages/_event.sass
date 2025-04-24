@@ -161,7 +161,7 @@
   +respond("tablet-landscape")
     grid-column: col 3 / main-end
 
-  
+
 .slider-nav--event-recipients
   grid-row: 3
   grid-column: full-start / col 2
@@ -186,9 +186,12 @@
   padding-top: var(--space-xl)
   padding-bottom: var(--space-xl)
   margin-bottom: calc(var(--space-xl)*-1)
-  
+
 .event-section
   background: var(--secondary-lightest)
+
+.event-section:nth-of-type(odd)
+  background: none
 
 .event-section--advertise
   p
@@ -200,7 +203,7 @@
   margin-top: 0
   font-weight: 300
   line-height: 1.1
-  
+
 .reservations__heading
   font-weight: 300
   margin-bottom: 0
