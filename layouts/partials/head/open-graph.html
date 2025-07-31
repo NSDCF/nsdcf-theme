@@ -63,11 +63,11 @@ some minor changes */}}
 {{- end }}
 
 {{- if .IsPage }}
-  {{- range .Site.Authors }}
-    {{ with .Social.facebook }}
+  {{- range .Site.Params.Author }}
+    {{ with .Site.Params.Social.facebook }}
       <meta property="article:author" content="https://www.facebook.com/{{ . }}" />
     {{ end }}
-    {{ with .Site.Social.facebook }}
+    {{ with .Site.Params.Social.facebook }}
       <meta property="article:publisher" content="https://www.facebook.com/{{ . }}" />
     {{ end }}
     <meta property="article:section" content="{{ .Section }}" />
@@ -79,6 +79,6 @@ some minor changes */}}
   {{- end }}
 {{- end -}}
 
-{{- with .Site.Social.facebookpageid }}
+{{- with .Site.Params.Social.facebookpageid }}
   <meta property="fb:pages" content="{{.}}">
 {{- end -}}

@@ -1,5 +1,5 @@
-{{- .Scratch.Set "sameAs" (slice (print $.Site.Social.facebook) (print "https://twitter.com/" $.Site.Social.twitter) (print $.Site.Social.youtube)) -}}
-{{- .Scratch.Set "sameAsAlumni" (slice (print $.Site.Social.alumni_facebook) (print "https://twitter.com/" $.Site.Social.alumni_twitter)) -}}
+{{- .Scratch.Set "sameAs" (slice (print $.Site.Params.Social.facebook) (print "https://twitter.com/" $.Site.Params.Social.twitter) (print $.Site.Params.Social.youtube)) -}}
+{{- .Scratch.Set "sameAsAlumni" (slice (print $.Site.Params.Social.alumni_facebook) (print "https://twitter.com/" $.Site.Params.Social.alumni_twitter)) -}}
 
 {{/* Use feature image Resource for Webpage type, common to all  */}}
 {{- $images := .Resources.ByType "image" -}}
