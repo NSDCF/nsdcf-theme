@@ -32,7 +32,10 @@
   {{- if (ge $orig.Width .) -}}
     {{- if eq $crop "wide" -}}
       {{/* Crops to 2.35:1 aspect ratio (1920/7)*3 */}}
-      {{- $dot.Scratch.SetInMap "images" . ($orig.Fit (print . "x" (div (int .) 7 | mul 3))) -}}
+      {{- $dot.Scratch.SetInMap "images" . ($orig.Fill (print . "x" (div (int .) 7 | mul 3))) -}}
+    {{- else if eq $crop "three-two" -}}
+      {{/* Crops to 3:2 aspect ratio */}}
+      {{- $dot.Scratch.SetInMap "images" . ($orig.Fill (print . "x" (div (int .) 3 | mul 2))) -}}
     {{- else if eq $crop "square" -}}
       {{- $dot.Scratch.SetInMap "images" . ($orig.Resize (print . "x" .)) }}
     {{- else -}}

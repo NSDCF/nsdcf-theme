@@ -1,10 +1,10 @@
 <article class="card card--listing {{with .class}} {{.}}{{end}}">
   {{ if and (.context.Resources.GetMatch "*featured*") (eq .class "card--big-summary") }}
     {{/* big thumb; full width */}}
-    {{ partial "responsive-image" (dict "img" "*featured*" "class" "card--full-main card" "dot" .context) }}
+    {{ partial "responsive-image" (dict "img" "*featured*" "crop" "three-two" "class" "card--full-main card" "dot" .context) }}
   {{ else if (.context.Resources.GetMatch "*featured*") }}
     {{/* regular thumb size */}}
-    {{ partial "responsive-image" (dict "img" "*featured*" "class" "card" "dot" .context) }}
+    {{ partial "responsive-image" (dict "img" "*featured*" "crop" "three-two" "class" "card" "dot" .context) }}
   {{ else }}
     {{ partial "responsive-image-placeholder" (dict "class" "card") }}
   {{ end }}
