@@ -74,7 +74,7 @@
         {{- end -}}
 
         <div class="event-recipients__slider-wrapper sub-grid">
-          <div class="{{ if .Params.hasRecipientBios }}big-cards slider{{else}}cards cards--recipients{{end}}">
+          <div id="recipients" class="{{ if .Params.hasRecipientBios }}big-cards slider{{else}}cards cards--recipients{{end}}">
             {{ range sort $honorees ".File.BaseFileName" "asc" }}
               <article class="{{ if .Content }}big-card{{else}}card card--board{{end}}">
                 <div class="big-card__img-wrapper">
