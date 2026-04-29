@@ -19,7 +19,7 @@
   {{ range first 1 (where .Pages "Params.eventComplete" false) }}
     <article class="grid upcoming-event">
       <span class="upcoming-event__year">{{ dateFormat "2006" .Params.eventDate }}</span>
-      <h2 class="upcoming-event__title">{{.Title}}</h2>
+      <h2 class="upcoming-event__title"><a href="{{.Permalink}}" title=""></a>{{.Title}}</a></h2>
       <p class="upcoming-event__summary">{{.Summary}} <a href="{{.Permalink}}" title="">{{ if .Params.ticketsAvailable }}Make your reservation today.{{else}}Learn more.{{end}}</a></p>
     </article>
   {{ end }}
