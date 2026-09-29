@@ -3,8 +3,8 @@
   let current = -1;
 
   for (let i = 0; i < accordion.length; i++) {
-    accordion[i].addEventListener('click', function() {
-      accordion[current].firstElementChild.preventDefault();
+    accordion[i].addEventListener('click', function(event) {
+      event.preventDefault();
 
       if (i !== current && current !== -1) {
         accordion[current].classList.remove('accordion-link--active');

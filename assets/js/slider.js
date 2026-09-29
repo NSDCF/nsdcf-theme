@@ -1,6 +1,10 @@
 (function() {
   addEventListener("turbo:load", function(){
     const recipients = document.querySelector('.event-recipients--big-cards');
+    if (!recipients) {
+      return;
+    }
+
     const slider = recipients.querySelector('.big-cards');
     const nextBtn = recipients.querySelector('.slider-btn--next');
     const prevBtn = recipients.querySelector('.slider-btn--prev');
