@@ -98,7 +98,7 @@
       "@id": {{ print .Site.BaseURL "#webpage" }},
       "url": {{ .Permalink }},
       "name": {{print "\"" | safeJS }}{{ .Title | humanize | title | safeJS }}{{print "\"" | safeJS }},
-      "inLanguage": {{ .Site.LanguageCode }},
+      "inLanguage": {{ .Site.Language.Locale }},
       "isPartOf": {
         "@id": {{ print .Site.BaseURL "#website" }}
       },

@@ -36,7 +36,7 @@ some minor changes */}}
 {{- with .Params.audio }}
   <meta property="og:audio" content="{{ . }}" />
 {{ end }}
-<meta property="og:locale" content="{{ cond (ne .Params.locale nil) .Params.locale (replace $.Site.LanguageCode "-" "_") }}">
+<meta property="og:locale" content="{{ cond (ne .Params.locale nil) .Params.locale (replace $.Site.Language.Locale "-" "_") }}">
 {{- with .Site.Params.title }}
   <meta property="og:site_name" content="{{ . }}" />
 {{ end }}

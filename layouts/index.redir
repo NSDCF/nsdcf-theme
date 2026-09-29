@@ -4,7 +4,7 @@
     {{  . | printf "%-35s" }}	{{ $p.RelPermalink -}}
   {{ end -}}
 {{- end -}}
-{{ with $.Site.Data.redirects }}
+{{ with hugo.Data.redirects }}
   {{ range .redirects }}
     {{  .oldURL | printf "%-35s" }}	{{ .newURL -}}
   {{- end -}}
