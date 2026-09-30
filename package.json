@@ -10,6 +10,6 @@
   "author": "NSDCF",
   "license": "ISC",
   "dependencies": {
-    "@hotwired/turbo": "^7.1.0"
+    "@hotwired/turbo": "^8.0.23"
   }
 }
