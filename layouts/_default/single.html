@@ -3,14 +3,26 @@
   {{- $featured := $images.GetMatch "*feature*" -}}
   {{- $featured := cond (ne $featured nil) $featured ($images.GetMatch "{*cover*,*thumbnail*}") -}}
   {{- $featured := $featured.Fill "1600x720" -}}
+  {{- $youtubeId := "" -}}
+  {{- if and (eq .Section "news") .Params.videos -}}
+    {{- range first 1 .Params.videos -}}
+      {{- $youtubeId = .youtubeId -}}
+    {{- end -}}
+  {{- end -}}
 
   <article class="content-grid">
-    <header class="mast mast--section{{ with $featured}} mast--section-has-image{{end}} grid">
+    <header class="mast mast--section{{ if or $featured $youtubeId }} mast--section-has-image{{ end }} grid">
       <h1 class="mast__title">{{ .Title }}</h1>
-      {{ with $featured -}}
+      {{ if $youtubeId -}}
+        <figure class="mast__fig mast__fig--youtube">
+          <div class="yt-container yt-container--mast">
+            <iframe src="https://www.youtube-nocookie.com/embed/{{ $youtubeId }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </figure>
+      {{ else if $featured -}}
         <figure class="mast__fig">
-          <img src="{{ .Permalink }}" class="mast__img"/>
-          {{ with .Params.citation }}<p class="mast__caption">{{. | markdownify}}</p>{{ end }}
+          <img src="{{ $featured.Permalink }}" class="mast__img"/>
+          {{ with $featured.Params.citation }}<p class="mast__caption">{{. | markdownify}}</p>{{ end }}
         </figure>
       {{- end -}}
     </header>
